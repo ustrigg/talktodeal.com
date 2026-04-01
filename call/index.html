@@ -8,8 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
-    :root { --accent: #0071e3; --green: #30d158; --red: #ff453a; }
+    :root { --accent: #0071e3; --green: #30d158; --red: #ff453a; --orange: #ff9f0a; }
     * { box-sizing: border-box; margin: 0; }
     body {
       font-family: "Inter", sans-serif;
@@ -19,429 +20,386 @@
       background: linear-gradient(180deg, #0a0b10 0%, #141620 100%);
       color: #fff;
     }
+    .logo { font-size: 0.9rem; font-weight: 700; opacity: 0.5; margin: 12px 0 32px; }
+    h1 { font-size: clamp(1.8rem, 6vw, 2.8rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.08; text-align: center; margin-bottom: 10px; }
+    .page-sub { font-size: 0.95rem; color: rgba(255,255,255,0.5); max-width: 34ch; text-align: center; line-height: 1.55; margin-bottom: 32px; }
 
-    .logo { font-size: 0.9rem; font-weight: 700; opacity: 0.5; margin: 16px 0 28px; letter-spacing: -0.02em; }
-    .page-title { font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; text-align: center; margin-bottom: 10px; }
-    .page-sub { font-size: 0.95rem; color: rgba(255,255,255,0.55); max-width: 40ch; text-align: center; line-height: 1.6; margin-bottom: 32px; }
-
-    /* ─── Form ─── */
-    .gate-form {
-      width: min(100%, 420px);
+    /* ─── Card ─── */
+    .card {
+      width: min(100%, 380px);
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 24px;
-      padding: 28px;
+      border-radius: 24px; padding: 28px 24px;
     }
 
-    .form-title { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-    .form-sub { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-bottom: 20px; line-height: 1.4; }
-
-    .field { margin-bottom: 14px; }
-    .field label {
-      display: block; font-size: 0.78rem; font-weight: 600;
-      color: rgba(255,255,255,0.5); margin-bottom: 6px;
-      text-transform: uppercase; letter-spacing: 0.04em;
-    }
-    .field input, .field select {
-      width: 100%; padding: 12px 16px;
+    /* ─── Social login ─── */
+    .social-btns { display: grid; gap: 10px; }
+    .social-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 14px 16px;
+      border-radius: 14px; border: 1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px; color: #fff;
-      font-family: inherit; font-size: 0.95rem;
-      outline: none; transition: border-color 0.2s;
+      color: #fff; font-family: inherit; font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; transition: background 0.2s;
     }
-    .field input::placeholder { color: rgba(255,255,255,0.25); }
-    .field input:focus, .field select:focus { border-color: var(--accent); }
-    .field select { appearance: none; cursor: pointer; }
-    .field select option { background: #1a1d27; color: #fff; }
+    .social-btn:hover { background: rgba(255,255,255,0.1); }
+    .social-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .social-btn.google { background: #fff; color: #333; border-color: #ddd; }
+    .social-btn.google:hover { background: #f5f5f5; }
+    .social-btn.apple { background: #000; border-color: #333; }
 
-    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-    .field-error { border-color: var(--red) !important; }
-    .error-text { font-size: 0.75rem; color: var(--red); margin-top: 4px; display: none; }
-
-    /* Consent checkboxes */
-    .consent { margin-top: 20px; }
-    .consent-item {
-      display: flex; gap: 10px; align-items: flex-start;
-      margin-bottom: 12px; cursor: pointer;
+    /* ─── User badge ─── */
+    .user-badge {
+      display: none; align-items: center; gap: 10px;
+      padding: 12px 14px; border-radius: 14px;
+      background: rgba(48, 209, 88, 0.08); border: 1px solid rgba(48, 209, 88, 0.2);
     }
-    .consent-item input[type="checkbox"] {
-      width: 18px; height: 18px; margin-top: 2px;
-      accent-color: var(--accent); flex-shrink: 0; cursor: pointer;
+    .user-badge.active { display: flex; }
+    .user-avatar {
+      width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1);
+      display: grid; place-items: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0;
+      overflow: hidden;
     }
-    .consent-item span {
-      font-size: 0.82rem; color: rgba(255,255,255,0.6); line-height: 1.45;
-    }
-    .consent-item a { color: var(--accent); text-decoration: underline; }
+    .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .user-info { flex: 1; min-width: 0; }
+    .user-name { font-size: 0.9rem; font-weight: 600; }
+    .user-email { font-size: 0.75rem; color: rgba(255,255,255,0.4); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    /* Submit button */
-    .submit-btn {
-      width: 100%; margin-top: 20px; padding: 16px;
-      background: var(--accent); color: #fff;
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 18px 0; font-size: 0.75rem; color: rgba(255,255,255,0.2);
+    }
+    .divider::before, .divider::after {
+      content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.07);
+    }
+
+    /* ─── Phone ─── */
+    .phone-label { font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.45); margin-bottom: 8px; }
+    .phone-row { display: flex; gap: 8px; }
+    .phone-prefix {
+      padding: 14px; border-radius: 14px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5); font-size: 0.95rem; font-weight: 600;
+      display: grid; place-items: center;
+    }
+    .phone-input {
+      flex: 1; padding: 14px 16px; border-radius: 14px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      color: #fff; font-family: inherit; font-size: 1.1rem; font-weight: 600;
+      letter-spacing: 0.02em; outline: none; transition: border-color 0.2s;
+    }
+    .phone-input::placeholder { color: rgba(255,255,255,0.18); font-weight: 400; }
+    .phone-input:focus { border-color: var(--accent); }
+    .phone-input.error { border-color: var(--red); animation: shake 0.4s; }
+    @keyframes shake {
+      0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)}
+    }
+
+    /* ─── Consent (inline) ─── */
+    .consent-text {
+      margin-top: 16px;
+      font-size: 0.72rem; color: rgba(255,255,255,0.3); line-height: 1.5; text-align: center;
+    }
+    .consent-text a { color: var(--accent); }
+
+    /* ─── Call Button ─── */
+    .go-btn {
+      width: 100%; padding: 18px; margin-top: 20px;
+      background: var(--green); color: #fff;
       border: none; border-radius: 999px;
-      font-family: inherit; font-size: 1rem; font-weight: 700;
+      font-family: inherit; font-size: 1.1rem; font-weight: 700;
       cursor: pointer; transition: opacity 0.2s, transform 0.15s;
+      box-shadow: 0 0 40px rgba(48,209,88,0.2);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
     }
-    .submit-btn:hover { opacity: 0.9; }
-    .submit-btn:active { transform: scale(0.98); }
-    .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .go-btn:active { transform: scale(0.97); }
+    .go-btn:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; }
+    .go-btn svg { width: 22px; height: 22px; }
 
-    /* ─── Call screen (hidden by default) ─── */
-    .call-screen { display: none; text-align: center; width: min(100%, 420px); }
+    /* ─── Call Screen ─── */
+    .call-screen { display: none; text-align: center; width: min(100%, 380px); }
     .call-screen.active { display: block; }
+
+    .call-ready-icon {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: rgba(48,209,88,0.12);
+      display: grid; place-items: center;
+      margin: 0 auto 16px; color: var(--green);
+    }
 
     .call-btn {
       display: flex; align-items: center; justify-content: center; gap: 12px;
-      width: 100%; padding: 20px 32px; margin-top: 24px;
+      width: 100%; padding: 20px; margin-top: 24px;
       background: var(--green); color: #fff;
-      border-radius: 999px; font-size: 1.15rem; font-weight: 700;
+      border-radius: 999px; font-size: 1.2rem; font-weight: 700;
       text-decoration: none;
-      box-shadow: 0 0 40px rgba(48, 209, 88, 0.25);
+      box-shadow: 0 0 50px rgba(48,209,88,0.25);
       transition: transform 0.15s;
     }
-    .call-btn:active { transform: scale(0.97); }
-    .call-btn svg { width: 26px; height: 26px; }
+    .call-btn:active { transform: scale(0.96); }
+    .call-btn svg { width: 24px; height: 24px; }
 
-    .call-info { margin-top: 20px; font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+    .call-info {
+      margin-top: 16px; font-size: 0.82rem; color: rgba(255,255,255,0.4); line-height: 1.5;
+    }
 
-    .steps { margin-top: 36px; display: grid; gap: 18px; text-align: left; }
-    .step { display: flex; gap: 12px; align-items: flex-start; }
+    .steps { margin-top: 32px; display: grid; gap: 12px; text-align: left; }
+    .step { display: flex; gap: 10px; align-items: center; }
     .step-num {
       width: 28px; height: 28px; border-radius: 50%;
-      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
-      display: grid; place-items: center;
-      font-size: 0.75rem; font-weight: 700; flex-shrink: 0;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+      display: grid; place-items: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0;
     }
-    .step-text { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.45; }
+    .step-text { font-size: 0.88rem; color: rgba(255,255,255,0.55); }
     .step-text strong { color: #fff; }
 
-    /* ─── Rate limit screen ─── */
-    .limit-screen { display: none; text-align: center; width: min(100%, 420px); }
+    /* ─── Limit Screen ─── */
+    .limit-screen { display: none; text-align: center; width: min(100%, 380px); }
     .limit-screen.active { display: block; }
-    .limit-icon { font-size: 3rem; margin-bottom: 16px; }
-    .limit-text { font-size: 0.95rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
-    .limit-timer { font-size: 1.4rem; font-weight: 800; color: var(--accent); margin-top: 12px; }
+    .limit-icon {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: rgba(255,159,10,0.1);
+      display: grid; place-items: center;
+      margin: 0 auto 16px; font-size: 2rem;
+    }
+    .limit-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 16px 32px; margin-top: 24px;
+      background: var(--accent); color: #fff;
+      border-radius: 999px; font-size: 1rem; font-weight: 700;
+      text-decoration: none;
+    }
 
     /* Footer */
-    .footer-note {
-      margin-top: 40px; font-size: 0.75rem; color: rgba(255,255,255,0.3);
-      max-width: 42ch; line-height: 1.5; text-align: center;
+    .footer {
+      margin-top: auto; padding-top: 32px;
+      font-size: 0.72rem; color: rgba(255,255,255,0.2); text-align: center; line-height: 1.5;
     }
-    .footer-note a { color: var(--accent); }
+    .footer a { color: var(--accent); }
 
-    /* Hide form when call screen active */
-    .gate-form.hidden { display: none; }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
+
   <div class="logo">TalkToDeal</div>
-  <h1 class="page-title">Try it yourself.<br>Call our AI demo.</h1>
-  <p class="page-sub">
-    Fill in your info below. Our AI will pick up, run a live field service demo for your industry, then text you the structured report.
-  </p>
+  <h1>Call our AI.<br>Get a work order back.</h1>
+  <p class="page-sub">Describe any field job on the phone. Our AI builds a work order and texts it to you — in seconds.</p>
 
-  <!-- ═══ Gate Form ═══ -->
-  <div class="gate-form" id="gateForm">
-    <div class="form-title">Your info</div>
-    <div class="form-sub">We need this to send you the demo report and prevent abuse. One demo per phone number.</div>
+  <!-- ═══ Gate Card ═══ -->
+  <div class="card" id="gateCard">
 
-    <form id="demoForm" novalidate>
-      <div class="field-row">
-        <div class="field">
-          <label for="firstName">First Name *</label>
-          <input type="text" id="firstName" placeholder="John" required autocomplete="given-name">
-        </div>
-        <div class="field">
-          <label for="lastName">Last Name</label>
-          <input type="text" id="lastName" placeholder="Smith" autocomplete="family-name">
-        </div>
+    <!-- Social Login -->
+    <div id="socialSection">
+      <div class="social-btns">
+        <button class="social-btn google" onclick="googleSignIn()">
+          <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Continue with Google
+        </button>
+        <button class="social-btn apple" onclick="appleSignIn()">
+          <svg viewBox="0 0 24 24" fill="#fff"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+          Continue with Apple
+        </button>
       </div>
+      <div class="divider">then enter your phone for the SMS report</div>
+    </div>
 
-      <div class="field">
-        <label for="phone">Phone Number *</label>
-        <input type="tel" id="phone" placeholder="(555) 123-4567" required autocomplete="tel">
-        <div class="error-text" id="phoneError">Please enter a valid US phone number</div>
+    <!-- User badge -->
+    <div class="user-badge" id="userBadge">
+      <div class="user-avatar" id="userAvatar">?</div>
+      <div class="user-info">
+        <div class="user-name" id="userName">—</div>
+        <div class="user-email" id="userEmail">—</div>
       </div>
+    </div>
 
-      <div class="field">
-        <label for="company">Company Name</label>
-        <input type="text" id="company" placeholder="ABC Heating & Air" autocomplete="organization">
+    <!-- Phone -->
+    <div style="margin-top:4px;">
+      <div class="phone-label">Your phone number *</div>
+      <div class="phone-row">
+        <div class="phone-prefix">+1</div>
+        <input class="phone-input" type="tel" id="phone" placeholder="(555) 123-4567"
+               inputmode="tel" autocomplete="tel-national" maxlength="14">
       </div>
+    </div>
 
-      <div class="field">
-        <label for="industry">Industry *</label>
-        <select id="industry" required>
-          <option value="" disabled selected>Select your industry</option>
-          <option value="hvac">HVAC</option>
-          <option value="plumbing">Plumbing</option>
-          <option value="electrical">Electrical</option>
-          <option value="roofing">Roofing</option>
-          <option value="property-mgmt">Property Management</option>
-          <option value="general-contractor">General Contractor</option>
-          <option value="other">Other Field Service</option>
-        </select>
-      </div>
+    <!-- Consent (inline text, no checkbox) -->
+    <p class="consent-text">
+      By tapping "Call AI Demo" you agree to receive one SMS with your demo report.
+      This call connects to an AI. <a href="https://talktodeal.com" target="_blank">Privacy</a>
+    </p>
 
-      <div class="field">
-        <label for="email">Email (for report)</label>
-        <input type="email" id="email" placeholder="john@company.com" autocomplete="email">
-      </div>
-
-      <div class="consent">
-        <label class="consent-item">
-          <input type="checkbox" id="consentSms" required>
-          <span>I agree to receive <strong>one SMS</strong> with my demo report at the phone number provided. Standard message rates apply. <a href="https://talktodeal.com/privacy" target="_blank">Privacy Policy</a></span>
-        </label>
-        <label class="consent-item">
-          <input type="checkbox" id="consentCall" required>
-          <span>I understand this call connects to an <strong>AI demo system</strong> that will process my voice to generate a sample work order. No personal data is stored beyond this session.</span>
-        </label>
-      </div>
-
-      <button type="submit" class="submit-btn" id="submitBtn">Continue to Call Demo</button>
-    </form>
+    <!-- Submit -->
+    <button class="go-btn" id="goBtn" disabled>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Call AI Demo
+    </button>
   </div>
 
-  <!-- ═══ Call Screen (shown after form) ═══ -->
+  <!-- ═══ Call Screen ═══ -->
   <div class="call-screen" id="callScreen">
-    <p style="font-size:0.85rem; color:var(--green); font-weight:600; margin-bottom:4px;">
-      &#10003; Verified — you're ready to go
-    </p>
-    <p id="welcomeMsg" style="font-size:0.95rem; color:rgba(255,255,255,0.7); margin-bottom:8px;"></p>
+    <div class="call-ready-icon">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2 style="font-size:1.3rem; font-weight:800; letter-spacing:-0.03em;" id="welcomeMsg">You're all set!</h2>
+    <p style="font-size:0.9rem; color:rgba(255,255,255,0.5); margin-top:6px;">Tap below to start your AI demo call.</p>
 
-    <a class="call-btn" id="callBtn" href="tel:+16699000008">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-      </svg>
+    <a class="call-btn" id="callLink" href="tel:+16699000008">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
       Call (669) 900-0008
     </a>
 
-    <div class="call-info">
-      <p>The AI will greet you by name and tailor the demo to <strong id="industryName">your industry</strong>.</p>
-      <p style="margin-top:8px;">Your report will be sent via SMS to <strong id="phoneDisplay"></strong>.</p>
-    </div>
+    <p class="call-info">
+      Report will be texted to <strong id="phoneDisplay"></strong>
+    </p>
 
     <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-text"><strong>AI picks up</strong> — greets you and confirms your industry</div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-text"><strong>Describe a job</strong> — talk like you would on-site. Any diagnosis, any estimate.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-text"><strong>Get a text</strong> — structured work order, estimate, and action items sent to your phone.</div>
-      </div>
+      <div class="step"><div class="step-num">1</div><div class="step-text"><strong>AI picks up</strong> instantly</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Describe any job</strong> — talk naturally</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Get a text</strong> with your work order</div></div>
     </div>
   </div>
 
-  <!-- ═══ Rate Limit Screen ═══ -->
+  <!-- ═══ Limit Screen ═══ -->
   <div class="limit-screen" id="limitScreen">
     <div class="limit-icon">&#128274;</div>
-    <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:12px;">Demo already used</h2>
-    <p class="limit-text">
-      This phone number has already been used for a demo call.<br>
-      Each number gets <strong>one free demo</strong> to keep things fair.
+    <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:8px;">Demo already used</h2>
+    <p style="font-size:0.9rem; color:rgba(255,255,255,0.5); line-height:1.5;">
+      One free demo per phone number.<br>Want a full walkthrough with your team?
     </p>
-    <div class="limit-timer" id="limitTimer"></div>
-    <p style="margin-top:24px; font-size:0.88rem; color:rgba(255,255,255,0.5);">
-      Want a full walkthrough instead?
-    </p>
-    <a class="call-btn" href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank" style="background:var(--accent); margin-top:12px; font-size:1rem;">
-      Book a Live Demo with Our Team
+    <a class="limit-btn" href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank">
+      Book a Live Demo
     </a>
   </div>
 
-  <p class="footer-note">
-    By proceeding you consent to receive one automated SMS. You can reply STOP at any time.
-    <br>Questions? <a href="mailto:trigg@talktodeal.com">trigg@talktodeal.com</a>
-    <br><br><a href="https://talktodeal.com">talktodeal.com</a>
-  </p>
+  <div class="footer">
+    Reply STOP to opt out of SMS.
+    <br><a href="https://talktodeal.com">talktodeal.com</a> · <a href="mailto:trigg@talktodeal.com">trigg@talktodeal.com</a>
+  </div>
 
   <script>
     // ═══ CONFIG ═══
     var DEMO_PHONE = "+16699000008";
-    var COOLDOWN_HOURS = 24;       // One demo per phone per 24h
-    var MAX_DEMOS_PER_PHONE = 1;   // Total demos allowed per phone number
+    var COOLDOWN_MS = 24 * 3600000;
+    var GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
 
-    // ═══ Rate Limiting (localStorage) ═══
-    function getDemoLog() {
-      try { return JSON.parse(localStorage.getItem("ttd_demos") || "{}"); }
-      catch(e) { return {}; }
-    }
-    function saveDemoLog(log) {
-      localStorage.setItem("ttd_demos", JSON.stringify(log));
-    }
-    function normalizePhone(p) {
-      return p.replace(/\D/g, "").slice(-10);
-    }
-    function isPhoneBlocked(phone) {
-      var key = normalizePhone(phone);
-      var log = getDemoLog();
-      if (!log[key]) return false;
-      var entry = log[key];
-      // Check total count
-      if (entry.count >= MAX_DEMOS_PER_PHONE) {
-        var elapsed = Date.now() - entry.lastCall;
-        var cooldownMs = COOLDOWN_HOURS * 3600000;
-        if (elapsed < cooldownMs) return { blocked: true, remaining: cooldownMs - elapsed };
-        // Cooldown passed, allow again but keep count
-        return false;
-      }
-      return false;
-    }
-    function recordDemo(phone) {
-      var key = normalizePhone(phone);
-      var log = getDemoLog();
-      if (!log[key]) log[key] = { count: 0, firstCall: Date.now() };
-      log[key].count++;
-      log[key].lastCall = Date.now();
-      saveDemoLog(log);
-    }
+    // ═══ State ═══
+    var state = { name: "", email: "", avatar: "" };
 
-    // ═══ Validation ═══
-    function validatePhone(val) {
-      var digits = val.replace(/\D/g, "");
-      return digits.length === 10 || (digits.length === 11 && digits[0] === "1");
-    }
-    function formatPhone(val) {
-      var d = val.replace(/\D/g, "");
-      if (d.length > 10 && d[0] === "1") d = d.slice(1);
-      if (d.length >= 6) return "(" + d.slice(0,3) + ") " + d.slice(3,6) + "-" + d.slice(6,10);
-      if (d.length >= 3) return "(" + d.slice(0,3) + ") " + d.slice(3);
-      return d;
-    }
-
-    // Auto-format phone input
-    var phoneInput = document.getElementById("phone");
-    phoneInput.addEventListener("input", function() {
-      var pos = this.selectionStart;
-      var oldLen = this.value.length;
-      this.value = formatPhone(this.value);
-      var newLen = this.value.length;
-      this.setSelectionRange(pos + (newLen - oldLen), pos + (newLen - oldLen));
+    // ═══ Phone auto-format ═══
+    var phoneEl = document.getElementById("phone");
+    phoneEl.addEventListener("input", function() {
+      var d = this.value.replace(/\D/g, "").slice(0, 10);
+      if (d.length >= 6) this.value = "(" + d.slice(0,3) + ") " + d.slice(3,6) + "-" + d.slice(6);
+      else if (d.length >= 3) this.value = "(" + d.slice(0,3) + ") " + d.slice(3);
+      else this.value = d;
+      checkReady();
     });
 
-    // ═══ Industry display names ═══
-    var industryNames = {
-      "hvac": "HVAC",
-      "plumbing": "Plumbing",
-      "electrical": "Electrical",
-      "roofing": "Roofing",
-      "property-mgmt": "Property Management",
-      "general-contractor": "General Contracting",
-      "other": "Field Service"
-    };
+    function getDigits() { return phoneEl.value.replace(/\D/g, ""); }
 
-    // ═══ Form Submit ═══
-    document.getElementById("demoForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+    // ═══ Ready check — only need 10 digits ═══
+    function checkReady() {
+      document.getElementById("goBtn").disabled = getDigits().length !== 10;
+    }
 
-      var firstName = document.getElementById("firstName").value.trim();
-      var phone = document.getElementById("phone").value;
-      var industry = document.getElementById("industry").value;
-      var consentSms = document.getElementById("consentSms").checked;
-      var consentCall = document.getElementById("consentCall").checked;
+    // ═══ Google Sign-In ═══
+    function googleSignIn() {
+      if (typeof google === "undefined" || !google.accounts) {
+        alert("Google Sign-In is loading. Try again in a moment, or just enter your phone below.");
+        return;
+      }
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleResponse
+      });
+      google.accounts.id.prompt();
+    }
 
-      // Validate
-      var valid = true;
-      if (!firstName) {
-        document.getElementById("firstName").classList.add("field-error");
-        valid = false;
+    function handleGoogleResponse(response) {
+      try {
+        var p = JSON.parse(atob(response.credential.split(".")[1]));
+        state.name = p.name || "";
+        state.email = p.email || "";
+        state.avatar = p.picture || "";
+        showUserBadge();
+      } catch(e) { console.warn("Google parse error", e); }
+    }
+
+    function appleSignIn() {
+      alert("Apple Sign-In requires server setup. Just enter your phone below — takes 3 seconds!");
+    }
+
+    function showUserBadge() {
+      document.getElementById("socialSection").classList.add("hidden");
+      var badge = document.getElementById("userBadge");
+      badge.classList.add("active");
+      document.getElementById("userName").textContent = state.name;
+      document.getElementById("userEmail").textContent = state.email;
+      if (state.avatar) {
+        document.getElementById("userAvatar").innerHTML = '<img src="' + state.avatar + '" alt="">';
       } else {
-        document.getElementById("firstName").classList.remove("field-error");
+        document.getElementById("userAvatar").textContent = (state.name || "?")[0];
       }
+      // Focus phone input after login
+      phoneEl.focus();
+    }
 
-      if (!validatePhone(phone)) {
-        document.getElementById("phone").classList.add("field-error");
-        document.getElementById("phoneError").style.display = "block";
-        valid = false;
-      } else {
-        document.getElementById("phone").classList.remove("field-error");
-        document.getElementById("phoneError").style.display = "none";
-      }
+    // ═══ Rate Limit ═══
+    function getDemoLog() {
+      try { return JSON.parse(localStorage.getItem("ttd_demos") || "{}"); } catch(e) { return {}; }
+    }
+    function isBlocked(digits) {
+      var log = getDemoLog();
+      var e = log[digits];
+      return e && (Date.now() - e.ts) < COOLDOWN_MS;
+    }
+    function recordDemo(digits) {
+      var log = getDemoLog();
+      log[digits] = { ts: Date.now(), count: (log[digits] ? log[digits].count + 1 : 1) };
+      localStorage.setItem("ttd_demos", JSON.stringify(log));
+    }
 
-      if (!industry) {
-        document.getElementById("industry").classList.add("field-error");
-        valid = false;
-      }
+    // ═══ Submit ═══
+    document.getElementById("goBtn").addEventListener("click", function() {
+      var digits = getDigits();
+      if (digits.length !== 10) { phoneEl.classList.add("error"); return; }
+      phoneEl.classList.remove("error");
 
-      if (!consentSms || !consentCall) {
-        alert("Please check both consent boxes to continue.");
-        valid = false;
-      }
-
-      if (!valid) return;
-
-      // Check rate limit
-      var blocked = isPhoneBlocked(phone);
-      if (blocked) {
-        showLimitScreen(blocked.remaining);
+      if (isBlocked(digits)) {
+        document.getElementById("gateCard").classList.add("hidden");
+        document.getElementById("limitScreen").classList.add("active");
         return;
       }
 
-      // Record this demo
-      recordDemo(phone);
+      recordDemo(digits);
 
-      // Show call screen
-      document.getElementById("gateForm").classList.add("hidden");
-      document.getElementById("callScreen").classList.add("active");
-      document.getElementById("welcomeMsg").textContent =
-        "Hi " + firstName + "! Ready for your " + (industryNames[industry] || "Field Service") + " demo.";
-      document.getElementById("industryName").textContent = industryNames[industry] || "your industry";
-      document.getElementById("phoneDisplay").textContent = formatPhone(phone);
-
-      // Log to console (replace with webhook/API later)
-      console.log("[TalkToDeal Demo Request]", {
-        firstName: firstName,
-        lastName: document.getElementById("lastName").value.trim(),
-        phone: phone,
-        company: document.getElementById("company").value.trim(),
-        industry: industry,
-        email: document.getElementById("email").value.trim(),
-        consentSms: consentSms,
-        consentCall: consentCall,
-        timestamp: new Date().toISOString()
+      console.log("[TalkToDeal Call]", {
+        name: state.name, email: state.email, phone: phoneEl.value,
+        ts: new Date().toISOString()
       });
 
-      // Auto-dial on mobile after short delay
-      var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      if (isMobile) {
-        setTimeout(function() { window.location.href = "tel:" + DEMO_PHONE; }, 1200);
+      // Show call screen
+      document.getElementById("gateCard").classList.add("hidden");
+      var cs = document.getElementById("callScreen");
+      cs.classList.add("active");
+
+      var greeting = state.name ? ("Hi " + state.name.split(" ")[0] + "!") : "You're all set!";
+      document.getElementById("welcomeMsg").textContent = greeting;
+      document.getElementById("phoneDisplay").textContent = phoneEl.value;
+
+      // Auto-dial on mobile
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        setTimeout(function() { window.location.href = "tel:" + DEMO_PHONE; }, 800);
       }
     });
 
-    function showLimitScreen(remainingMs) {
-      document.getElementById("gateForm").classList.add("hidden");
-      document.getElementById("limitScreen").classList.add("active");
-
-      if (remainingMs) {
-        var h = Math.floor(remainingMs / 3600000);
-        var m = Math.floor((remainingMs % 3600000) / 60000);
-        document.getElementById("limitTimer").textContent =
-          "Try again in " + h + "h " + m + "m";
+    // Enter key triggers call
+    phoneEl.addEventListener("keydown", function(e) {
+      if (e.key === "Enter" && getDigits().length === 10) {
+        document.getElementById("goBtn").click();
       }
-    }
-
-    // Check if already blocked on page load
-    (function() {
-      var log = getDemoLog();
-      var keys = Object.keys(log);
-      for (var i = 0; i < keys.length; i++) {
-        var entry = log[keys[i]];
-        if (entry.count >= MAX_DEMOS_PER_PHONE) {
-          var elapsed = Date.now() - entry.lastCall;
-          if (elapsed < COOLDOWN_HOURS * 3600000) {
-            // Pre-fill might be blocked, but we don't know which phone yet
-            // Only block after form submit
-            break;
-          }
-        }
-      }
-    })();
+    });
   </script>
 </body>
 </html>
