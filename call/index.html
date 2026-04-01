@@ -7,122 +7,441 @@
   <link rel="canonical" href="https://talktodeal.com/call">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --accent: #0071e3;
-      --green: #30d158;
-    }
+    :root { --accent: #0071e3; --green: #30d158; --red: #ff453a; }
     * { box-sizing: border-box; margin: 0; }
     body {
       font-family: "Inter", sans-serif;
       min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      display: flex; flex-direction: column; align-items: center;
       padding: 24px;
       background: linear-gradient(180deg, #0a0b10 0%, #141620 100%);
       color: #fff;
-      text-align: center;
     }
-    .logo { font-size: 0.9rem; font-weight: 700; opacity: 0.5; margin-bottom: 32px; letter-spacing: -0.02em; }
-    h1 { font-size: clamp(1.8rem, 6vw, 2.8rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 16px; }
-    .sub { font-size: 1rem; color: rgba(255,255,255,0.6); max-width: 38ch; line-height: 1.6; margin-bottom: 36px; }
+
+    .logo { font-size: 0.9rem; font-weight: 700; opacity: 0.5; margin: 16px 0 28px; letter-spacing: -0.02em; }
+    .page-title { font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; text-align: center; margin-bottom: 10px; }
+    .page-sub { font-size: 0.95rem; color: rgba(255,255,255,0.55); max-width: 40ch; text-align: center; line-height: 1.6; margin-bottom: 32px; }
+
+    /* ─── Form ─── */
+    .gate-form {
+      width: min(100%, 420px);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 28px;
+    }
+
+    .form-title { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .form-sub { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-bottom: 20px; line-height: 1.4; }
+
+    .field { margin-bottom: 14px; }
+    .field label {
+      display: block; font-size: 0.78rem; font-weight: 600;
+      color: rgba(255,255,255,0.5); margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .field input, .field select {
+      width: 100%; padding: 12px 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; color: #fff;
+      font-family: inherit; font-size: 0.95rem;
+      outline: none; transition: border-color 0.2s;
+    }
+    .field input::placeholder { color: rgba(255,255,255,0.25); }
+    .field input:focus, .field select:focus { border-color: var(--accent); }
+    .field select { appearance: none; cursor: pointer; }
+    .field select option { background: #1a1d27; color: #fff; }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .field-error { border-color: var(--red) !important; }
+    .error-text { font-size: 0.75rem; color: var(--red); margin-top: 4px; display: none; }
+
+    /* Consent checkboxes */
+    .consent { margin-top: 20px; }
+    .consent-item {
+      display: flex; gap: 10px; align-items: flex-start;
+      margin-bottom: 12px; cursor: pointer;
+    }
+    .consent-item input[type="checkbox"] {
+      width: 18px; height: 18px; margin-top: 2px;
+      accent-color: var(--accent); flex-shrink: 0; cursor: pointer;
+    }
+    .consent-item span {
+      font-size: 0.82rem; color: rgba(255,255,255,0.6); line-height: 1.45;
+    }
+    .consent-item a { color: var(--accent); text-decoration: underline; }
+
+    /* Submit button */
+    .submit-btn {
+      width: 100%; margin-top: 20px; padding: 16px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 999px;
+      font-family: inherit; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: opacity 0.2s, transform 0.15s;
+    }
+    .submit-btn:hover { opacity: 0.9; }
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ─── Call screen (hidden by default) ─── */
+    .call-screen { display: none; text-align: center; width: min(100%, 420px); }
+    .call-screen.active { display: block; }
 
     .call-btn {
       display: flex; align-items: center; justify-content: center; gap: 12px;
-      width: min(100%, 360px); padding: 20px 32px;
+      width: 100%; padding: 20px 32px; margin-top: 24px;
       background: var(--green); color: #fff;
-      border-radius: 999px; font-size: 1.2rem; font-weight: 700;
+      border-radius: 999px; font-size: 1.15rem; font-weight: 700;
       text-decoration: none;
-      box-shadow: 0 0 40px rgba(48, 209, 88, 0.3);
-      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 0 40px rgba(48, 209, 88, 0.25);
+      transition: transform 0.15s;
     }
     .call-btn:active { transform: scale(0.97); }
-    .call-btn svg { width: 28px; height: 28px; }
+    .call-btn svg { width: 26px; height: 26px; }
 
-    .steps { margin-top: 48px; display: grid; gap: 20px; width: min(100%, 400px); text-align: left; }
-    .step { display: flex; gap: 14px; align-items: flex-start; }
+    .call-info { margin-top: 20px; font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+    .steps { margin-top: 36px; display: grid; gap: 18px; text-align: left; }
+    .step { display: flex; gap: 12px; align-items: flex-start; }
     .step-num {
-      width: 32px; height: 32px; border-radius: 50%;
-      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
       display: grid; place-items: center;
-      font-size: 0.8rem; font-weight: 700; flex-shrink: 0;
+      font-size: 0.75rem; font-weight: 700; flex-shrink: 0;
     }
-    .step-text { font-size: 0.92rem; color: rgba(255,255,255,0.7); line-height: 1.5; }
+    .step-text { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.45; }
     .step-text strong { color: #fff; }
 
+    /* ─── Rate limit screen ─── */
+    .limit-screen { display: none; text-align: center; width: min(100%, 420px); }
+    .limit-screen.active { display: block; }
+    .limit-icon { font-size: 3rem; margin-bottom: 16px; }
+    .limit-text { font-size: 0.95rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+    .limit-timer { font-size: 1.4rem; font-weight: 800; color: var(--accent); margin-top: 12px; }
+
+    /* Footer */
     .footer-note {
-      margin-top: 48px; font-size: 0.78rem; color: rgba(255,255,255,0.35);
-      max-width: 42ch; line-height: 1.5;
+      margin-top: 40px; font-size: 0.75rem; color: rgba(255,255,255,0.3);
+      max-width: 42ch; line-height: 1.5; text-align: center;
     }
+    .footer-note a { color: var(--accent); }
 
-    /* Auto-dial on mobile */
-    @media (max-width: 768px) {
-      .desktop-note { display: none; }
-    }
-    @media (min-width: 769px) {
-      .mobile-note { display: none; }
-    }
+    /* Hide form when call screen active */
+    .gate-form.hidden { display: none; }
   </style>
-  <!-- Auto-dial on mobile after 1.5s delay -->
-  <script>
-    // CONFIG: Change this number when your AI demo line is ready
-    window.DEMO_PHONE = "+16699000008";
-
-    document.addEventListener("DOMContentLoaded", function() {
-      var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      if (isMobile) {
-        setTimeout(function() {
-          window.location.href = "tel:" + window.DEMO_PHONE;
-        }, 1500);
-      }
-    });
-  </script>
 </head>
 <body>
   <div class="logo">TalkToDeal</div>
-
-  <h1>Try it yourself.<br>Call our AI demo.</h1>
-
-  <p class="sub">
-    Tap the button below. Our AI will pick up, ask your industry, and run a live field service demo — then text you the structured report.
+  <h1 class="page-title">Try it yourself.<br>Call our AI demo.</h1>
+  <p class="page-sub">
+    Fill in your info below. Our AI will pick up, run a live field service demo for your industry, then text you the structured report.
   </p>
 
-  <a class="call-btn" id="callBtn" href="tel:+16699000008">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-    </svg>
-    Call (669) 900-0008
-  </a>
+  <!-- ═══ Gate Form ═══ -->
+  <div class="gate-form" id="gateForm">
+    <div class="form-title">Your info</div>
+    <div class="form-sub">We need this to send you the demo report and prevent abuse. One demo per phone number.</div>
 
-  <p class="mobile-note" style="margin-top:12px; font-size:0.82rem; color:rgba(255,255,255,0.4);">
-    Dialing automatically...
-  </p>
-  <p class="desktop-note" style="margin-top:12px; font-size:0.82rem; color:rgba(255,255,255,0.4);">
-    Open this page on your phone to auto-dial, or call the number above.
-  </p>
+    <form id="demoForm" novalidate>
+      <div class="field-row">
+        <div class="field">
+          <label for="firstName">First Name *</label>
+          <input type="text" id="firstName" placeholder="John" required autocomplete="given-name">
+        </div>
+        <div class="field">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" placeholder="Smith" autocomplete="family-name">
+        </div>
+      </div>
 
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-text"><strong>AI picks up</strong> and asks your industry (HVAC, plumbing, electrical...)</div>
+      <div class="field">
+        <label for="phone">Phone Number *</label>
+        <input type="tel" id="phone" placeholder="(555) 123-4567" required autocomplete="tel">
+        <div class="error-text" id="phoneError">Please enter a valid US phone number</div>
+      </div>
+
+      <div class="field">
+        <label for="company">Company Name</label>
+        <input type="text" id="company" placeholder="ABC Heating & Air" autocomplete="organization">
+      </div>
+
+      <div class="field">
+        <label for="industry">Industry *</label>
+        <select id="industry" required>
+          <option value="" disabled selected>Select your industry</option>
+          <option value="hvac">HVAC</option>
+          <option value="plumbing">Plumbing</option>
+          <option value="electrical">Electrical</option>
+          <option value="roofing">Roofing</option>
+          <option value="property-mgmt">Property Management</option>
+          <option value="general-contractor">General Contractor</option>
+          <option value="other">Other Field Service</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="email">Email (for report)</label>
+        <input type="email" id="email" placeholder="john@company.com" autocomplete="email">
+      </div>
+
+      <div class="consent">
+        <label class="consent-item">
+          <input type="checkbox" id="consentSms" required>
+          <span>I agree to receive <strong>one SMS</strong> with my demo report at the phone number provided. Standard message rates apply. <a href="https://talktodeal.com/privacy" target="_blank">Privacy Policy</a></span>
+        </label>
+        <label class="consent-item">
+          <input type="checkbox" id="consentCall" required>
+          <span>I understand this call connects to an <strong>AI demo system</strong> that will process my voice to generate a sample work order. No personal data is stored beyond this session.</span>
+        </label>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Continue to Call Demo</button>
+    </form>
+  </div>
+
+  <!-- ═══ Call Screen (shown after form) ═══ -->
+  <div class="call-screen" id="callScreen">
+    <p style="font-size:0.85rem; color:var(--green); font-weight:600; margin-bottom:4px;">
+      &#10003; Verified — you're ready to go
+    </p>
+    <p id="welcomeMsg" style="font-size:0.95rem; color:rgba(255,255,255,0.7); margin-bottom:8px;"></p>
+
+    <a class="call-btn" id="callBtn" href="tel:+16699000008">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+      Call (669) 900-0008
+    </a>
+
+    <div class="call-info">
+      <p>The AI will greet you by name and tailor the demo to <strong id="industryName">your industry</strong>.</p>
+      <p style="margin-top:8px;">Your report will be sent via SMS to <strong id="phoneDisplay"></strong>.</p>
     </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-text"><strong>Describe a job</strong> — talk like you would on-site. Any diagnosis, any estimate.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-text"><strong>Get a text message</strong> with a structured work order, estimate, and action items.</div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>AI picks up</strong> — greets you and confirms your industry</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>Describe a job</strong> — talk like you would on-site. Any diagnosis, any estimate.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Get a text</strong> — structured work order, estimate, and action items sent to your phone.</div>
+      </div>
     </div>
   </div>
 
+  <!-- ═══ Rate Limit Screen ═══ -->
+  <div class="limit-screen" id="limitScreen">
+    <div class="limit-icon">&#128274;</div>
+    <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:12px;">Demo already used</h2>
+    <p class="limit-text">
+      This phone number has already been used for a demo call.<br>
+      Each number gets <strong>one free demo</strong> to keep things fair.
+    </p>
+    <div class="limit-timer" id="limitTimer"></div>
+    <p style="margin-top:24px; font-size:0.88rem; color:rgba(255,255,255,0.5);">
+      Want a full walkthrough instead?
+    </p>
+    <a class="call-btn" href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank" style="background:var(--accent); margin-top:12px; font-size:1rem;">
+      Book a Live Demo with Our Team
+    </a>
+  </div>
+
   <p class="footer-note">
-    This is a live AI demo. Your call is processed to generate a sample report. No data is stored.
-    <br><br>
-    <a href="https://talktodeal.com" style="color:var(--accent);">talktodeal.com</a>
+    By proceeding you consent to receive one automated SMS. You can reply STOP at any time.
+    <br>Questions? <a href="mailto:trigg@talktodeal.com">trigg@talktodeal.com</a>
+    <br><br><a href="https://talktodeal.com">talktodeal.com</a>
   </p>
+
+  <script>
+    // ═══ CONFIG ═══
+    var DEMO_PHONE = "+16699000008";
+    var COOLDOWN_HOURS = 24;       // One demo per phone per 24h
+    var MAX_DEMOS_PER_PHONE = 1;   // Total demos allowed per phone number
+
+    // ═══ Rate Limiting (localStorage) ═══
+    function getDemoLog() {
+      try { return JSON.parse(localStorage.getItem("ttd_demos") || "{}"); }
+      catch(e) { return {}; }
+    }
+    function saveDemoLog(log) {
+      localStorage.setItem("ttd_demos", JSON.stringify(log));
+    }
+    function normalizePhone(p) {
+      return p.replace(/\D/g, "").slice(-10);
+    }
+    function isPhoneBlocked(phone) {
+      var key = normalizePhone(phone);
+      var log = getDemoLog();
+      if (!log[key]) return false;
+      var entry = log[key];
+      // Check total count
+      if (entry.count >= MAX_DEMOS_PER_PHONE) {
+        var elapsed = Date.now() - entry.lastCall;
+        var cooldownMs = COOLDOWN_HOURS * 3600000;
+        if (elapsed < cooldownMs) return { blocked: true, remaining: cooldownMs - elapsed };
+        // Cooldown passed, allow again but keep count
+        return false;
+      }
+      return false;
+    }
+    function recordDemo(phone) {
+      var key = normalizePhone(phone);
+      var log = getDemoLog();
+      if (!log[key]) log[key] = { count: 0, firstCall: Date.now() };
+      log[key].count++;
+      log[key].lastCall = Date.now();
+      saveDemoLog(log);
+    }
+
+    // ═══ Validation ═══
+    function validatePhone(val) {
+      var digits = val.replace(/\D/g, "");
+      return digits.length === 10 || (digits.length === 11 && digits[0] === "1");
+    }
+    function formatPhone(val) {
+      var d = val.replace(/\D/g, "");
+      if (d.length > 10 && d[0] === "1") d = d.slice(1);
+      if (d.length >= 6) return "(" + d.slice(0,3) + ") " + d.slice(3,6) + "-" + d.slice(6,10);
+      if (d.length >= 3) return "(" + d.slice(0,3) + ") " + d.slice(3);
+      return d;
+    }
+
+    // Auto-format phone input
+    var phoneInput = document.getElementById("phone");
+    phoneInput.addEventListener("input", function() {
+      var pos = this.selectionStart;
+      var oldLen = this.value.length;
+      this.value = formatPhone(this.value);
+      var newLen = this.value.length;
+      this.setSelectionRange(pos + (newLen - oldLen), pos + (newLen - oldLen));
+    });
+
+    // ═══ Industry display names ═══
+    var industryNames = {
+      "hvac": "HVAC",
+      "plumbing": "Plumbing",
+      "electrical": "Electrical",
+      "roofing": "Roofing",
+      "property-mgmt": "Property Management",
+      "general-contractor": "General Contracting",
+      "other": "Field Service"
+    };
+
+    // ═══ Form Submit ═══
+    document.getElementById("demoForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      var firstName = document.getElementById("firstName").value.trim();
+      var phone = document.getElementById("phone").value;
+      var industry = document.getElementById("industry").value;
+      var consentSms = document.getElementById("consentSms").checked;
+      var consentCall = document.getElementById("consentCall").checked;
+
+      // Validate
+      var valid = true;
+      if (!firstName) {
+        document.getElementById("firstName").classList.add("field-error");
+        valid = false;
+      } else {
+        document.getElementById("firstName").classList.remove("field-error");
+      }
+
+      if (!validatePhone(phone)) {
+        document.getElementById("phone").classList.add("field-error");
+        document.getElementById("phoneError").style.display = "block";
+        valid = false;
+      } else {
+        document.getElementById("phone").classList.remove("field-error");
+        document.getElementById("phoneError").style.display = "none";
+      }
+
+      if (!industry) {
+        document.getElementById("industry").classList.add("field-error");
+        valid = false;
+      }
+
+      if (!consentSms || !consentCall) {
+        alert("Please check both consent boxes to continue.");
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      // Check rate limit
+      var blocked = isPhoneBlocked(phone);
+      if (blocked) {
+        showLimitScreen(blocked.remaining);
+        return;
+      }
+
+      // Record this demo
+      recordDemo(phone);
+
+      // Show call screen
+      document.getElementById("gateForm").classList.add("hidden");
+      document.getElementById("callScreen").classList.add("active");
+      document.getElementById("welcomeMsg").textContent =
+        "Hi " + firstName + "! Ready for your " + (industryNames[industry] || "Field Service") + " demo.";
+      document.getElementById("industryName").textContent = industryNames[industry] || "your industry";
+      document.getElementById("phoneDisplay").textContent = formatPhone(phone);
+
+      // Log to console (replace with webhook/API later)
+      console.log("[TalkToDeal Demo Request]", {
+        firstName: firstName,
+        lastName: document.getElementById("lastName").value.trim(),
+        phone: phone,
+        company: document.getElementById("company").value.trim(),
+        industry: industry,
+        email: document.getElementById("email").value.trim(),
+        consentSms: consentSms,
+        consentCall: consentCall,
+        timestamp: new Date().toISOString()
+      });
+
+      // Auto-dial on mobile after short delay
+      var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        setTimeout(function() { window.location.href = "tel:" + DEMO_PHONE; }, 1200);
+      }
+    });
+
+    function showLimitScreen(remainingMs) {
+      document.getElementById("gateForm").classList.add("hidden");
+      document.getElementById("limitScreen").classList.add("active");
+
+      if (remainingMs) {
+        var h = Math.floor(remainingMs / 3600000);
+        var m = Math.floor((remainingMs % 3600000) / 60000);
+        document.getElementById("limitTimer").textContent =
+          "Try again in " + h + "h " + m + "m";
+      }
+    }
+
+    // Check if already blocked on page load
+    (function() {
+      var log = getDemoLog();
+      var keys = Object.keys(log);
+      for (var i = 0; i < keys.length; i++) {
+        var entry = log[keys[i]];
+        if (entry.count >= MAX_DEMOS_PER_PHONE) {
+          var elapsed = Date.now() - entry.lastCall;
+          if (elapsed < COOLDOWN_HOURS * 3600000) {
+            // Pre-fill might be blocked, but we don't know which phone yet
+            // Only block after form submit
+            break;
+          }
+        }
+      }
+    })();
+  </script>
 </body>
 </html>
