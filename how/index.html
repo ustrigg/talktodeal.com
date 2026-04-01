@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How TalkToDeal Works — Voice to Work Order in Seconds</title>
+  <link rel="canonical" href="https://talktodeal.com/how">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --accent: #0071e3; --green: #30d158; --orange: #ff9f0a; }
+    * { box-sizing: border-box; margin: 0; }
+    body { font-family: "Inter", sans-serif; background: #0a0b10; color: #fff; }
+
+    /* Header */
+    .header {
+      padding: 16px 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .logo { font-weight: 700; font-size: 0.95rem; color: rgba(255,255,255,0.5); }
+    .header a { color: var(--accent); font-size: 0.88rem; font-weight: 600; text-decoration: none; }
+
+    /* Intro */
+    .intro { padding: 48px 24px 32px; text-align: center; max-width: 640px; margin: 0 auto; }
+    .intro h1 { font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 12px; }
+    .intro p { color: rgba(255,255,255,0.55); font-size: 0.95rem; line-height: 1.6; }
+
+    /* Demo container */
+    .demo-wrap { max-width: 680px; margin: 0 auto; padding: 0 24px 64px; }
+
+    /* Timeline */
+    .timeline { position: relative; padding-left: 40px; }
+    .timeline::before {
+      content: ""; position: absolute; left: 15px; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(180deg, var(--accent), var(--green), var(--orange));
+      border-radius: 1px;
+    }
+
+    .phase {
+      position: relative; margin-bottom: 40px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .phase.visible { opacity: 1; transform: translateY(0); }
+
+    .phase-dot {
+      position: absolute; left: -33px; top: 6px;
+      width: 16px; height: 16px; border-radius: 50%;
+      border: 2px solid; background: #0a0b10;
+    }
+
+    .phase-label {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 10px;
+    }
+
+    /* Cards */
+    .card {
+      border-radius: 16px; padding: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .card-dark { background: rgba(255,255,255,0.04); }
+    .card-light { background: rgba(255,255,255,0.92); color: #111; }
+
+    /* Phase 1: Voice capture */
+    .voice-wave {
+      display: flex; align-items: center; gap: 3px;
+      height: 40px; margin-bottom: 14px;
+    }
+    .wave-bar {
+      width: 4px; border-radius: 2px; background: var(--accent);
+      animation: wave 1.2s ease-in-out infinite;
+    }
+    .wave-bar:nth-child(1) { height: 20%; animation-delay: 0s; }
+    .wave-bar:nth-child(2) { height: 50%; animation-delay: 0.1s; }
+    .wave-bar:nth-child(3) { height: 80%; animation-delay: 0.2s; }
+    .wave-bar:nth-child(4) { height: 60%; animation-delay: 0.3s; }
+    .wave-bar:nth-child(5) { height: 90%; animation-delay: 0.15s; }
+    .wave-bar:nth-child(6) { height: 40%; animation-delay: 0.25s; }
+    .wave-bar:nth-child(7) { height: 70%; animation-delay: 0.35s; }
+    .wave-bar:nth-child(8) { height: 30%; animation-delay: 0.05s; }
+    .wave-bar:nth-child(9) { height: 55%; animation-delay: 0.2s; }
+    .wave-bar:nth-child(10) { height: 45%; animation-delay: 0.3s; }
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.4); }
+      50% { transform: scaleY(1); }
+    }
+
+    .transcript {
+      font-size: 1rem; line-height: 1.5; font-style: italic;
+      color: rgba(255,255,255,0.85);
+    }
+    .transcript .word {
+      opacity: 0.3;
+      transition: opacity 0.3s;
+    }
+    .transcript .word.lit { opacity: 1; }
+
+    /* Phase 2: AI processing */
+    .ai-steps { display: grid; gap: 8px; }
+    .ai-step {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      font-size: 0.88rem; color: rgba(255,255,255,0.6);
+    }
+    .ai-step .check {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: rgba(48, 209, 88, 0.15);
+      display: grid; place-items: center;
+      color: var(--green); font-size: 0.7rem;
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .ai-step .check.done { opacity: 1; }
+    .ai-step .spinner {
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-top-color: var(--accent);
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Phase 3: Output */
+    .output-table { display: grid; gap: 6px; }
+    .output-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 14px; border-radius: 10px;
+      background: rgba(0,0,0,0.04);
+    }
+    .output-row span { font-size: 0.82rem; color: rgba(17,17,17,0.5); }
+    .output-row strong { font-size: 0.9rem; font-weight: 700; }
+    .output-row .status-pending { color: var(--orange); }
+    .output-row .status-done { color: #1a8f3c; }
+
+    /* Phase 4: Actions */
+    .action-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .action-chip {
+      padding: 8px 16px; border-radius: 999px;
+      font-size: 0.82rem; font-weight: 600;
+    }
+    .action-chip.dispatch { background: rgba(0,113,227,0.12); color: var(--accent); }
+    .action-chip.invoice { background: rgba(48,209,88,0.12); color: var(--green); }
+    .action-chip.followup { background: rgba(255,159,10,0.12); color: var(--orange); }
+
+    /* CTA */
+    .cta-section {
+      text-align: center; padding: 48px 24px;
+      background: linear-gradient(180deg, transparent, rgba(0,113,227,0.08));
+    }
+    .cta-section h2 { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 8px; }
+    .cta-section p { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 24px; }
+    .cta-btns { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .btn {
+      padding: 14px 28px; border-radius: 999px; font-weight: 700; font-size: 0.95rem;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-green { background: var(--green); color: #fff; }
+    .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <span class="logo">TalkToDeal</span>
+    <a href="https://talktodeal.com">Home</a>
+  </div>
+
+  <div class="intro">
+    <h1>See how voice becomes revenue.</h1>
+    <p>Watch a real HVAC service call turn into a structured work order, estimate, and follow-up — automatically.</p>
+  </div>
+
+  <div class="demo-wrap">
+    <div class="timeline">
+
+      <!-- Phase 1: Voice Capture -->
+      <div class="phase" data-phase="1">
+        <div class="phase-dot" style="border-color: var(--accent);"></div>
+        <div class="phase-label" style="color: var(--accent);">Step 1 — Tech speaks on-site</div>
+        <div class="card card-dark">
+          <div class="voice-wave" id="waveform">
+            <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+          <div class="transcript" id="transcript">
+            <span class="word">Condenser</span> <span class="word">coil</span> <span class="word">is</span> <span class="word">shot.</span>
+            <span class="word">Refrigerant's</span> <span class="word">low</span> <span class="word">—</span>
+            <span class="word">probably</span> <span class="word">a</span> <span class="word">slow</span> <span class="word">leak</span> <span class="word">on</span> <span class="word">the</span> <span class="word">TXV.</span>
+            <span class="word">Homeowner</span> <span class="word">wants</span> <span class="word">a</span> <span class="word">full</span> <span class="word">changeout.</span>
+            <span class="word">I'd</span> <span class="word">quote</span> <span class="word">forty-eight</span> <span class="word">hundred</span>
+            <span class="word">for</span> <span class="word">a</span> <span class="word">3-ton</span> <span class="word">Carrier,</span> <span class="word">installed.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 2: AI Processing -->
+      <div class="phase" data-phase="2">
+        <div class="phase-dot" style="border-color: var(--green);"></div>
+        <div class="phase-label" style="color: var(--green);">Step 2 — AI processes in real time</div>
+        <div class="card card-dark">
+          <div class="ai-steps" id="aiSteps">
+            <div class="ai-step"><span class="check" data-step="1">&#10003;</span> Transcribing speech</div>
+            <div class="ai-step"><span class="check" data-step="2">&#10003;</span> Identifying equipment &amp; parts</div>
+            <div class="ai-step"><span class="check" data-step="3">&#10003;</span> Extracting diagnosis &amp; pricing</div>
+            <div class="ai-step"><span class="check" data-step="4">&#10003;</span> Generating work order</div>
+            <div class="ai-step"><span class="check" data-step="5">&#10003;</span> Creating follow-up actions</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 3: Structured Output -->
+      <div class="phase" data-phase="3">
+        <div class="phase-dot" style="border-color: var(--orange);"></div>
+        <div class="phase-label" style="color: var(--orange);">Step 3 — Structured work order generated</div>
+        <div class="card card-light">
+          <div class="output-table" id="outputTable">
+            <div class="output-row"><span>Customer</span><strong>Johnson residence</strong></div>
+            <div class="output-row"><span>Diagnosis</span><strong>Condenser coil failure + TXV refrigerant leak</strong></div>
+            <div class="output-row"><span>Equipment</span><strong>3-ton Carrier (replacement)</strong></div>
+            <div class="output-row"><span>Scope</span><strong>Full system changeout</strong></div>
+            <div class="output-row"><span>Estimate</span><strong>$4,800 (equipment + labor)</strong></div>
+            <div class="output-row"><span>Status</span><strong class="status-pending">Awaiting customer approval</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 4: Actions -->
+      <div class="phase" data-phase="4">
+        <div class="phase-dot" style="border-color: #fff;"></div>
+        <div class="phase-label" style="color: rgba(255,255,255,0.7);">Step 4 — Ready for action</div>
+        <div class="card card-dark">
+          <p style="font-size:0.9rem; color:rgba(255,255,255,0.6); margin-bottom:12px;">
+            Work order is instantly available for:
+          </p>
+          <div class="action-chips">
+            <span class="action-chip dispatch">Dispatch to installer</span>
+            <span class="action-chip invoice">Generate invoice</span>
+            <span class="action-chip followup">Schedule follow-up</span>
+          </div>
+          <p style="font-size:0.82rem; color:rgba(255,255,255,0.4); margin-top:16px;">
+            Syncs to ServiceTitan, Housecall Pro, Jobber, QuickBooks, and more.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>Ready to see it live?</h2>
+    <p>Try the AI phone demo or book a walkthrough with our team.</p>
+    <div class="cta-btns">
+      <a class="btn btn-green" href="https://talktodeal.com/call">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 014.12 4.18 2 2 0 016.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        Call AI Demo
+      </a>
+      <a class="btn btn-primary" href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank">Book a Demo</a>
+      <a class="btn btn-outline" href="https://talktodeal.com">Visit Homepage</a>
+    </div>
+  </div>
+
+  <script>
+    // Animate phases on scroll
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.phase').forEach(function(p) { observer.observe(p); });
+
+    // Animate transcript words one by one
+    (function() {
+      var words = document.querySelectorAll('#transcript .word');
+      var i = 0;
+      function lightNext() {
+        if (i < words.length) {
+          words[i].classList.add('lit');
+          i++;
+          setTimeout(lightNext, 120 + Math.random() * 80);
+        } else {
+          // After transcript done, start AI steps
+          setTimeout(animateAI, 600);
+        }
+      }
+      // Start after 1s
+      setTimeout(lightNext, 1000);
+
+      function animateAI() {
+        var checks = document.querySelectorAll('#aiSteps .check');
+        var j = 0;
+        function showCheck() {
+          if (j < checks.length) {
+            checks[j].classList.add('done');
+            j++;
+            setTimeout(showCheck, 500);
+          }
+        }
+        showCheck();
+      }
+    })();
+  </script>
+</body>
+</html>
