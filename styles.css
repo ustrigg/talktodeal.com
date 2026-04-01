@@ -385,6 +385,190 @@ p {
   letter-spacing: 0.02em;
 }
 
+/* ─── Demo Navigation ─── */
+
+.demo-nav {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.demo-nav-inner {
+  padding: 48px 40px;
+  border-radius: 42px;
+  background: linear-gradient(180deg, #171921 0%, #0f1014 100%);
+  box-shadow: var(--shadow);
+}
+
+.demo-nav-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.demo-nav-header .eyebrow {
+  color: var(--accent);
+}
+
+.demo-nav-header h2 {
+  color: var(--text-inverse);
+  max-width: none;
+}
+
+.demo-nav-sub {
+  margin-top: 10px;
+  font-size: 1.05rem;
+  color: var(--text-inverse-soft);
+  max-width: 48ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.demo-nav-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.demo-nav-card {
+  position: relative;
+  padding: 32px 28px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.3s, border-color 0.3s, transform 0.25s;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+}
+
+.demo-nav-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-4px);
+}
+
+.demo-nav-icon {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  margin-bottom: 18px;
+}
+
+.phone-icon {
+  background: rgba(48, 209, 88, 0.12);
+  color: var(--green);
+}
+
+.chat-icon {
+  background: rgba(0, 113, 227, 0.12);
+  color: var(--accent);
+}
+
+.demo-nav-badge {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.phone-badge {
+  background: rgba(48, 209, 88, 0.12);
+  color: var(--green);
+}
+
+.chat-badge {
+  background: rgba(0, 113, 227, 0.12);
+  color: var(--accent);
+}
+
+.demo-nav-card h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text-inverse);
+  margin-bottom: 8px;
+}
+
+.demo-nav-card p {
+  font-size: 0.92rem;
+  color: var(--text-inverse-soft);
+  line-height: 1.5;
+  max-width: 36ch;
+}
+
+.demo-nav-steps {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.demo-nav-arrow {
+  color: rgba(255, 255, 255, 0.15);
+}
+
+.demo-nav-cta {
+  margin-top: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  transition: transform 0.15s;
+  align-self: flex-start;
+}
+
+.phone-cta {
+  background: rgba(48, 209, 88, 0.15);
+  color: var(--green);
+}
+
+.demo-nav-card:hover .phone-cta {
+  background: rgba(48, 209, 88, 0.25);
+}
+
+.chat-cta {
+  background: rgba(0, 113, 227, 0.15);
+  color: var(--accent);
+}
+
+.demo-nav-card:hover .chat-cta {
+  background: rgba(0, 113, 227, 0.25);
+}
+
+@media (max-width: 720px) {
+  .demo-nav-inner {
+    padding: 32px 20px;
+    border-radius: 24px;
+  }
+
+  .demo-nav-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .demo-nav-card {
+    padding: 24px 20px;
+    border-radius: 20px;
+  }
+
+  .demo-nav-steps {
+    flex-wrap: wrap;
+  }
+}
+
 /* ─── Pain Points ─── */
 
 .pain {
