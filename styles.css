@@ -585,6 +585,82 @@ p {
   color: var(--text-soft);
 }
 
+/* ─── HVAC Scenarios ─── */
+
+.scenarios {
+  padding-top: 80px;
+}
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.scenario-card {
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.scenario-type {
+  padding: 14px 24px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-inverse);
+  background: linear-gradient(135deg, #1a1d27 0%, #0f1014 100%);
+}
+
+.scenario-speech {
+  padding: 22px 24px;
+  background: linear-gradient(180deg, #1e2029 0%, #15171f 100%);
+  font-size: 1.05rem;
+  line-height: 1.45;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--text-inverse);
+  letter-spacing: -0.02em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex: 1;
+}
+
+.scenario-output {
+  padding: 20px 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.82));
+  display: grid;
+  gap: 6px;
+}
+
+.scenario-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.scenario-row span {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-soft);
+}
+
+.scenario-row strong {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: right;
+}
+
+.status-green {
+  color: #1a8f3c !important;
+}
+
 /* ─── Value ─── */
 
 .value {
@@ -771,6 +847,10 @@ p {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .scenario-grid {
+    grid-template-columns: 1fr;
+  }
+
   .value-card.large {
     grid-column: span 2;
   }
@@ -855,7 +935,7 @@ p {
     font-size: 1.25rem;
   }
 
-  .pain, .solution, .demo, .value {
+  .pain, .solution, .demo, .value, .scenarios {
     padding-top: 48px;
   }
 
