@@ -9,3 +9,8 @@ Thumbs.db
 *-preview*.png
 live-*.png
 lighthouse.json
+
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
