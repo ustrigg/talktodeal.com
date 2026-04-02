@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TalkToDeal — Capture Every Conversation. Build Business Memory. Execute Instantly.</title>
-  <meta name="description" content="TalkToDeal turns business conversations from any channel — field mic, phone, email, chat, social — into structured data, business memory, and automated execution. Voice to action, not just voice to text.">
-  <meta name="keywords" content="business memory, voice to action, conversation capture, field service automation, AI work order, multi-channel data capture, enterprise memory layer, voice AI platform">
+  <title>TalkToDeal — Your Tech Already Said It. We Turn It Into Action.</title>
+  <meta name="description" content="TalkToDeal captures what HVAC techs say on-site and turns it into work orders, estimates, follow-ups, and dispatch actions. No typing. No app. Just talk.">
+  <meta name="keywords" content="HVAC work order automation, voice to work order, field service voice capture, HVAC dispatch software, HVAC estimating tool, service call documentation, HVAC technician productivity">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #fafafa; --surface: #fff; --dark: #0a0b10; --dark-soft: #151720;
-      --text: #111; --text-soft: rgba(17,17,17,0.65); --text-inv: #fff; --text-inv-soft: rgba(255,255,255,0.65);
-      --accent: #0071e3; --accent-soft: rgba(0,113,227,0.1);
-      --green: #30d158; --orange: #ff9f0a; --purple: #bf5af2; --red: #ff453a; --cyan: #64d2ff;
+      --bg: #fafafa;
+      --text: #111; --text-soft: rgba(17,17,17,0.6); --text-inv: #fff; --text-inv-soft: rgba(255,255,255,0.65);
+      --accent: #0071e3; --accent-soft: rgba(0,113,227,0.08);
+      --green: #30d158; --orange: #ff9f0a; --red: #ff453a;
+      --dark: #0a0b10; --dark2: #151720;
       --line: rgba(17,17,17,0.07); --line-inv: rgba(255,255,255,0.08);
       --shadow: 0 20px 60px rgba(0,0,0,0.07);
       --r-xl: 42px; --r-lg: 28px; --r-md: 20px;
@@ -26,7 +27,7 @@
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
 
-    /* ─── Topbar ─── */
+    /* Topbar */
     .topbar {
       position: sticky; top: 0; z-index: 30;
       width: var(--w); margin: 0 auto; padding: 14px 0;
@@ -40,22 +41,20 @@
       min-height: 38px; padding: 0 16px; font-size: 0.88rem;
       background: var(--accent); color: #fff; border-radius: 999px;
       display: inline-flex; align-items: center; font-weight: 600;
-      transition: background 0.15s;
     }
     .nav-cta:hover { background: #005bb5; }
 
-    /* ─── Global ─── */
+    /* Global */
     .section { width: var(--w); margin: 0 auto; padding: 40px 0; }
     .eyebrow {
       margin: 0 0 14px; font-size: 0.78rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent);
     }
-    h1, h2, h3 { margin: 0; letter-spacing: -0.05em; }
-    h1 { font-size: clamp(2.8rem, 6.5vw, 5.2rem); line-height: 0.96; font-weight: 900; }
-    h2 { font-size: clamp(2rem, 4.5vw, 3.6rem); line-height: 1; font-weight: 800; }
-    h3 { font-size: 1.3rem; line-height: 1.15; font-weight: 700; }
+    h1, h2, h3 { margin: 0; letter-spacing: -0.04em; }
+    h1 { font-size: clamp(2.8rem, 6.5vw, 5rem); line-height: 0.98; font-weight: 900; }
+    h2 { font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1.02; font-weight: 800; }
+    h3 { font-size: 1.25rem; line-height: 1.15; font-weight: 700; }
     p { margin: 0; color: var(--text-soft); line-height: 1.65; font-size: 1rem; }
-
     .button {
       min-height: 50px; padding: 0 24px; display: inline-flex; align-items: center; justify-content: center;
       border-radius: 999px; border: 1px solid transparent; font-weight: 600; font-size: 0.95rem;
@@ -66,203 +65,260 @@
     .btn-primary:hover { background: #005bb5; }
     .btn-secondary { background: rgba(255,255,255,0.8); border-color: var(--line); color: var(--text); }
     .btn-secondary:hover { background: #fff; }
-    .btn-outline-light { background: transparent; border-color: var(--line-inv); color: var(--text-inv); }
-    .btn-outline-light:hover { background: rgba(255,255,255,0.08); }
     .btn-green { background: var(--green); color: #fff; }
     .large-btn { min-height: 56px; padding: 0 32px; font-size: 1.05rem; }
-
     .actions { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
 
-    /* ─── Reveal ─── */
+    /* Reveal */
     .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
     /* ═══ S1: Hero ═══ */
-    .hero { min-height: calc(100vh - 68px); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 0 60px; }
-    .hero h1 { max-width: 16ch; margin: 0 auto; }
-    .hero-lead { max-width: 54ch; font-size: 1.2rem; margin: 20px auto 0; }
-    .hero-proof { display: flex; align-items: center; gap: 8px; margin-top: 24px; font-size: 0.88rem; font-weight: 600; color: var(--text-soft); }
+    .hero {
+      min-height: calc(100vh - 68px);
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 32px; align-items: center;
+      padding: 40px 0;
+    }
+    .hero-lead { max-width: 46ch; font-size: 1.12rem; margin-top: 18px; }
+    .hero-proof {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 20px; font-size: 0.88rem; font-weight: 600; color: var(--text-soft);
+    }
     .proof-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: blink 2s ease-in-out infinite; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-    /* Hero flow visual */
-    .hero-flow {
-      margin-top: 48px; width: 100%; max-width: 800px;
-      display: flex; align-items: center; justify-content: center; gap: 0;
+    .hero-visual {
+      position: relative; border-radius: var(--r-xl); overflow: hidden;
+      background: linear-gradient(180deg, #1a1d27, #0a0b10);
+      min-height: 480px;
     }
-    .flow-node {
-      padding: 18px 24px; border-radius: var(--r-md);
-      text-align: center; flex: 1; min-width: 0;
+    .hero-visual img {
+      width: 100%; height: 100%; object-fit: cover; opacity: 0.7;
+      position: absolute; inset: 0;
     }
-    .flow-node-dark { background: var(--dark); color: var(--text-inv); }
-    .flow-node-accent { background: var(--accent); color: #fff; }
-    .flow-node-green { background: var(--green); color: #fff; }
-    .flow-icon { font-size: 1.5rem; margin-bottom: 6px; }
-    .flow-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
-    .flow-arrow {
-      flex-shrink: 0; width: 40px; display: flex; align-items: center; justify-content: center;
-      color: var(--text-soft); font-size: 1.2rem;
+    .hero-overlay {
+      position: relative; z-index: 2; padding: 32px;
+      display: flex; flex-direction: column; justify-content: flex-end; height: 100%;
+      min-height: 480px;
+      background: linear-gradient(180deg, transparent 40%, rgba(10,11,16,0.85) 75%, rgba(10,11,16,0.95) 100%);
     }
+    .hero-quote {
+      font-size: 1.2rem; font-weight: 700; font-style: italic; color: var(--text-inv);
+      line-height: 1.35; letter-spacing: -0.02em; margin-bottom: 16px;
+    }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .hero-chip {
+      padding: 6px 14px; border-radius: 999px; font-size: 0.78rem; font-weight: 600;
+    }
+    .hero-chip.green { background: rgba(48,209,88,0.15); color: var(--green); }
+    .hero-chip.blue { background: rgba(0,113,227,0.15); color: var(--accent); }
+    .hero-chip.orange { background: rgba(255,159,10,0.15); color: var(--orange); }
 
-    /* ═══ S2: Problem ═══ */
-    .problem { padding: 80px 0 40px; }
-    .problem-header { margin-bottom: 32px; }
-    .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .problem-card {
-      padding: 28px; border-radius: var(--r-lg);
+    /* ═══ S2: Pain ═══ */
+    .pain { padding: 80px 0 40px; }
+    .pain-header { margin-bottom: 36px; }
+    .pain-header h2 { max-width: 20ch; }
+    .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .pain-card {
+      border-radius: var(--r-lg); overflow: hidden;
       background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
       border: 1px solid var(--line); box-shadow: var(--shadow);
     }
-    .problem-card .p-icon {
-      width: 44px; height: 44px; border-radius: 12px;
-      display: grid; place-items: center; margin-bottom: 16px;
-      font-size: 1.2rem;
+    .pain-card-img {
+      height: 160px; overflow: hidden;
     }
-    .problem-card h3 { margin-bottom: 8px; font-size: 1.1rem; }
-    .problem-card p { font-size: 0.92rem; }
+    .pain-card-img img { width: 100%; height: 100%; object-fit: cover; }
+    .pain-card-body { padding: 24px; }
+    .pain-card h3 { margin-bottom: 8px; font-size: 1.1rem; }
+    .pain-card p { font-size: 0.92rem; }
 
-    /* ═══ S3: Channels ═══ */
-    .channels {
+    /* ═══ S3: How It Works ═══ */
+    .how { padding: 80px 0; }
+    .how-header { text-align: center; margin-bottom: 40px; }
+    .how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 36px; }
+    .how-step {
+      text-align: center; padding: 28px 20px; border-radius: var(--r-lg);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
+      border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .how-step-num {
+      width: 44px; height: 44px; border-radius: 50%; margin: 0 auto 14px;
+      display: grid; place-items: center;
+      font-size: 1rem; font-weight: 800; color: #fff; background: var(--accent);
+    }
+    .how-step h3 { margin-bottom: 6px; font-size: 1.05rem; }
+    .how-step p { font-size: 0.9rem; }
+
+    /* Demo block */
+    .how-demo {
+      border-radius: var(--r-xl); overflow: hidden;
+      background: linear-gradient(180deg, var(--dark), var(--dark2));
+      padding: 32px; display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: stretch;
+    }
+    .demo-col { padding: 20px; }
+    .demo-label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--text-inv-soft); margin-bottom: 14px;
+    }
+    .demo-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .demo-dot.red { background: var(--red); animation: blink 1.5s ease-in-out infinite; }
+    .demo-dot.green { background: var(--green); }
+    .demo-dot.blue { background: var(--accent); }
+    .demo-speech {
+      font-size: 1.1rem; line-height: 1.4; font-weight: 600; font-style: italic;
+      color: var(--text-inv); letter-spacing: -0.02em;
+    }
+    .demo-arrow {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 0 16px; gap: 4px;
+    }
+    .demo-arrow svg { opacity: 0.3; }
+    .demo-arrow span {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--accent); writing-mode: vertical-rl; text-orientation: mixed;
+    }
+    .demo-extracts { display: grid; gap: 8px; }
+    .demo-extract {
+      padding: 10px 14px; border-radius: 12px; background: rgba(255,255,255,0.05);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .demo-extract span { font-size: 0.78rem; color: var(--text-inv-soft); }
+    .demo-extract strong { font-size: 0.88rem; color: var(--text-inv); font-weight: 600; }
+    .demo-actions { display: grid; gap: 8px; }
+    .demo-action {
+      padding: 10px 16px; border-radius: 999px; font-size: 0.82rem; font-weight: 600;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .demo-action.a-green { background: rgba(48,209,88,0.12); color: var(--green); }
+    .demo-action.a-blue { background: rgba(0,113,227,0.12); color: var(--accent); }
+    .demo-action.a-orange { background: rgba(255,159,10,0.12); color: var(--orange); }
+    .demo-action.a-white { background: rgba(255,255,255,0.06); color: var(--text-inv-soft); }
+
+    /* ═══ S4: MIC / Built for the field ═══ */
+    .field {
       padding: 60px 0;
     }
-    .channels-panel {
-      padding: 56px 48px; border-radius: var(--r-xl);
-      background: linear-gradient(180deg, var(--dark) 0%, var(--dark-soft) 100%);
-      box-shadow: var(--shadow);
+    .field-panel {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      border-radius: var(--r-xl); overflow: hidden;
+      box-shadow: var(--shadow); border: 1px solid var(--line);
     }
-    .channels-header { text-align: center; margin-bottom: 40px; }
-    .channels-header h2 { color: var(--text-inv); }
-    .channels-header p { color: var(--text-inv-soft); margin-top: 10px; font-size: 1.05rem; }
+    .field-photo {
+      min-height: 420px; position: relative; overflow: hidden;
+      background: #1a1d27;
+    }
+    .field-photo img {
+      width: 100%; height: 100%; object-fit: cover;
+      position: absolute; inset: 0;
+    }
+    .field-info {
+      padding: 48px 40px; display: flex; flex-direction: column; justify-content: center;
+      background: linear-gradient(180deg, #fff, #f8f8fa);
+    }
+    .field-info h2 { margin-bottom: 10px; }
+    .field-info > p { font-size: 1.05rem; margin-bottom: 28px; }
+    .field-points { display: grid; gap: 12px; margin-bottom: 28px; }
+    .field-point {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 0.95rem; font-weight: 600; color: var(--text);
+    }
+    .field-check {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      display: grid; place-items: center; background: var(--accent-soft);
+    }
+    .field-check svg { width: 16px; height: 16px; }
+    .field-bottom {
+      padding: 20px 24px; border-radius: 16px;
+      background: linear-gradient(180deg, var(--dark), var(--dark2));
+      text-align: center;
+    }
+    .field-bottom p { color: var(--text-inv); font-size: 1.05rem; font-weight: 700; letter-spacing: -0.02em; }
 
-    .channels-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
-      margin-bottom: 32px;
-    }
-    .channel-card {
-      padding: 20px 16px; border-radius: 18px; text-align: center;
-      background: rgba(255,255,255,0.04); border: 1px solid var(--line-inv);
-      transition: background 0.2s, border-color 0.2s, transform 0.2s;
-    }
-    .channel-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
-    .channel-card.featured {
-      background: rgba(0,113,227,0.1); border-color: rgba(0,113,227,0.25);
-      grid-row: span 2; display: flex; flex-direction: column; justify-content: center;
-    }
-    .ch-icon { font-size: 1.8rem; margin-bottom: 8px; }
-    .ch-name { font-size: 0.88rem; font-weight: 700; color: var(--text-inv); }
-    .ch-sub { font-size: 0.72rem; color: var(--text-inv-soft); margin-top: 4px; line-height: 1.4; }
-    .ch-tag {
-      display: inline-block; margin-top: 8px; padding: 3px 10px; border-radius: 999px;
-      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-      background: rgba(0,113,227,0.15); color: var(--accent);
-    }
-
-    .channels-product {
-      display: flex; align-items: center; gap: 24px;
-      padding: 24px 28px; border-radius: 20px;
-      background: rgba(255,255,255,0.04); border: 1px solid var(--line-inv);
-    }
-    .channels-product img { width: 80px; height: 80px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.3)); }
-    .channels-product-info h3 { color: var(--text-inv); font-size: 1.05rem; margin-bottom: 4px; }
-    .channels-product-info p { color: var(--text-inv-soft); font-size: 0.85rem; }
-
-    /* ═══ S4: Memory ═══ */
-    .memory { padding: 80px 0; }
-    .memory-header { text-align: center; margin-bottom: 40px; }
-    .memory-flow {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
-    }
-    .memory-step {
-      padding: 36px 28px; border-radius: var(--r-lg); text-align: center;
-      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
-      border: 1px solid var(--line); box-shadow: var(--shadow);
-    }
-    .memory-step .m-num {
-      width: 48px; height: 48px; border-radius: 50%; margin: 0 auto 16px;
-      display: grid; place-items: center;
-      font-size: 1.1rem; font-weight: 800; color: #fff;
-    }
-    .memory-step h3 { margin-bottom: 8px; }
-    .memory-step p { font-size: 0.92rem; }
-    .memory-quote {
-      margin-top: 32px; text-align: center; padding: 32px;
-      border-radius: var(--r-lg);
-      background: linear-gradient(180deg, var(--dark), var(--dark-soft));
-    }
-    .memory-quote p { color: var(--text-inv-soft); font-size: 1.15rem; font-style: italic; }
-    .memory-quote strong { color: var(--text-inv); font-style: normal; }
-
-    /* ═══ S5: Execute ═══ */
-    .execute { padding: 60px 0; }
-    .execute-panel {
-      padding: 56px 48px; border-radius: var(--r-xl);
-      background: linear-gradient(135deg, #0a1628 0%, var(--dark) 50%, #0a1020 100%);
-    }
-    .execute-header { text-align: center; margin-bottom: 40px; }
-    .execute-header h2 { color: var(--text-inv); }
-    .execute-header p { color: var(--text-inv-soft); margin-top: 10px; font-size: 1.05rem; }
-
-    .execute-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-    .execute-card {
-      padding: 24px; border-radius: 20px;
-      background: rgba(255,255,255,0.04); border: 1px solid var(--line-inv);
-      display: flex; gap: 16px; align-items: flex-start;
-    }
-    .ex-icon {
-      width: 44px; height: 44px; border-radius: 12px;
-      display: grid; place-items: center; flex-shrink: 0;
-      font-size: 1.1rem;
-    }
-    .execute-card h3 { color: var(--text-inv); font-size: 1rem; margin-bottom: 4px; }
-    .execute-card p { color: var(--text-inv-soft); font-size: 0.85rem; }
-
-    .execute-outputs {
-      margin-top: 24px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
-    }
-    .output-chip {
-      padding: 8px 16px; border-radius: 999px; font-size: 0.82rem; font-weight: 600;
-      background: rgba(255,255,255,0.06); border: 1px solid var(--line-inv);
-      color: var(--text-inv-soft);
-    }
-
-    /* ═══ S6: Industry Proof ═══ */
-    .industries { padding: 80px 0; }
-    .industries-header { text-align: center; margin-bottom: 36px; }
-    .industries-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; }
-    .industry-card {
-      padding: 32px; border-radius: var(--r-lg);
-      border: 1px solid var(--line); box-shadow: var(--shadow);
+    /* ═══ S5: HVAC Proof ═══ */
+    .proof { padding: 80px 0 40px; }
+    .proof-header { text-align: center; margin-bottom: 36px; }
+    .proof-header p.sub { margin-top: 8px; font-size: 1.05rem; max-width: 52ch; margin-left: auto; margin-right: auto; }
+    .proof-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .proof-card {
+      border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow);
       display: flex; flex-direction: column;
     }
-    .industry-card.main {
-      grid-row: span 2;
-      background: linear-gradient(180deg, var(--dark), var(--dark-soft));
-      border-color: var(--line-inv);
+    .proof-card-top {
+      padding: 24px; flex: 1;
+      background: linear-gradient(180deg, #1a1d27, var(--dark));
     }
-    .industry-card.main h3, .industry-card.main .ind-tag { color: var(--text-inv); }
-    .industry-card.main p { color: var(--text-inv-soft); }
-    .industry-card.secondary {
-      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
-    }
-    .ind-tag {
-      display: inline-flex; align-items: center; gap: 6px;
+    .proof-type {
       font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
-      margin-bottom: 14px;
+      color: var(--accent); margin-bottom: 10px;
     }
-    .ind-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .industry-card h3 { margin-bottom: 8px; }
-    .industry-card p { font-size: 0.92rem; flex: 1; }
-    .ind-link {
-      margin-top: 16px; font-size: 0.88rem; font-weight: 600; color: var(--accent);
+    .proof-voice {
+      font-size: 1rem; line-height: 1.4; font-weight: 600; font-style: italic;
+      color: var(--text-inv); letter-spacing: -0.02em;
+    }
+    .proof-card-bottom {
+      padding: 20px 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.85));
+      display: grid; gap: 6px;
+    }
+    .proof-output {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.85rem; font-weight: 600; color: var(--text);
+    }
+    .proof-output .po-dot {
+      width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+    }
+    .proof-link {
+      text-align: center; margin-top: 28px;
+    }
+    .proof-link a {
+      font-size: 0.92rem; font-weight: 600; color: var(--accent);
       display: inline-flex; align-items: center; gap: 6px;
     }
-    .ind-soon {
-      margin-top: 12px; padding: 4px 12px; border-radius: 999px;
-      display: inline-block; font-size: 0.72rem; font-weight: 700;
-      background: rgba(0,0,0,0.04); color: var(--text-soft);
+    .proof-link a:hover { text-decoration: underline; }
+
+    /* ═══ S6: Results ═══ */
+    .results { padding: 40px 0; }
+    .results-panel {
+      padding: 56px 48px; border-radius: var(--r-xl);
+      background: linear-gradient(180deg, var(--dark), var(--dark2));
+      box-shadow: var(--shadow);
+    }
+    .results-header { text-align: center; margin-bottom: 36px; }
+    .results-header h2 { color: var(--text-inv); }
+    .results-header p { color: var(--text-inv-soft); margin-top: 8px; font-size: 1.05rem; }
+    .results-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .result-card {
+      padding: 24px; border-radius: var(--r-md);
+      background: rgba(255,255,255,0.04); border: 1px solid var(--line-inv);
+      text-align: center;
+    }
+    .result-card h3 { color: var(--text-inv); font-size: 1.05rem; margin-bottom: 8px; }
+    .result-card p { color: var(--text-inv-soft); font-size: 0.88rem; }
+
+    /* ═══ S7: Vision (restrained) ═══ */
+    .vision { padding: 60px 0 40px; }
+    .vision-panel {
+      padding: 48px; border-radius: var(--r-xl); text-align: center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
+      border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .vision-panel h2 { margin-bottom: 12px; }
+    .vision-panel > p { font-size: 1.05rem; max-width: 56ch; margin: 0 auto 28px; }
+    .vision-strip {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    }
+    .vision-chip {
+      padding: 10px 20px; border-radius: 999px; font-size: 0.88rem; font-weight: 600;
+    }
+    .vision-chip.active {
+      background: var(--accent); color: #fff;
+    }
+    .vision-chip.future {
+      background: rgba(0,0,0,0.04); color: var(--text-soft); border: 1px solid var(--line);
     }
 
-    /* ═══ S7: Trust ═══ */
+    /* ═══ S8: Trust ═══ */
     .trust { padding: 40px 0; }
     .trust-panel {
       padding: 40px 48px; border-radius: var(--r-xl);
@@ -280,31 +336,30 @@
       background: var(--accent-soft); border: 1px solid rgba(0,113,227,0.12);
       font-size: 0.85rem; font-weight: 600; color: var(--accent);
     }
-    .trust-badges { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; }
+    .trust-badges { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
     .trust-badge {
-      display: flex; align-items: center; gap: 8px;
+      display: flex; align-items: center; gap: 6px;
       font-size: 0.85rem; font-weight: 600; color: var(--text-soft);
     }
-    .trust-badge-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .tb-dot { width: 8px; height: 8px; border-radius: 50%; }
 
-    /* ═══ S8: CTA ═══ */
+    /* ═══ S9: CTA ═══ */
     .closing { padding: 40px 0 48px; }
     .closing-panel {
       padding: 64px 48px; border-radius: var(--r-xl); text-align: center;
-      background: radial-gradient(circle at top center, rgba(0,113,227,0.14), transparent 32%),
+      background: radial-gradient(circle at top center, rgba(0,113,227,0.12), transparent 32%),
                   linear-gradient(180deg, #fff 0%, #eef2f8 100%);
       border: 1px solid var(--line); box-shadow: var(--shadow);
     }
-    .closing-sub { margin-top: 8px; font-size: 1.15rem; }
+    .closing-sub { margin-top: 8px; font-size: 1.1rem; }
     .closing-price { margin-top: 24px; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.04em; color: var(--text); }
-    .closing-value { margin-top: 6px; font-size: 0.95rem; color: var(--accent); font-weight: 600; }
     .closing-panel .actions { justify-content: center; }
-    .closing-proof {
-      display: flex; align-items: center; gap: 8px; justify-content: center;
+    .closing-fit {
       margin-top: 24px; font-size: 0.88rem; font-weight: 600; color: var(--text-soft);
+      font-style: italic;
     }
 
-    /* ─── Footer ─── */
+    /* Footer */
     .footer { padding: 28px 0; border-top: 1px solid var(--line); }
     .footer-inner {
       width: var(--w); margin: 0 auto;
@@ -315,17 +370,19 @@
     .footer-sep { color: var(--line); }
     .footer-copy { font-size: 0.85rem; color: var(--text-soft); }
 
-    /* ─── Responsive ─── */
+    /* Responsive */
     @media (max-width: 980px) {
-      .hero-flow { flex-direction: column; max-width: 320px; }
-      .flow-arrow { transform: rotate(90deg); width: auto; height: 32px; }
-      .problem-grid { grid-template-columns: 1fr; }
-      .channels-grid { grid-template-columns: repeat(2, 1fr); }
-      .channel-card.featured { grid-row: span 1; }
-      .memory-flow { grid-template-columns: 1fr; }
-      .execute-grid { grid-template-columns: 1fr; }
-      .industries-grid { grid-template-columns: 1fr; }
-      .industry-card.main { grid-row: span 1; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-visual { min-height: 360px; }
+      .hero-overlay { min-height: 360px; }
+      .pain-grid, .how-steps, .proof-grid { grid-template-columns: 1fr; }
+      .how-demo { grid-template-columns: 1fr; }
+      .demo-arrow { flex-direction: row; padding: 12px 0; }
+      .demo-arrow span { writing-mode: horizontal-tb; }
+      .demo-arrow svg { transform: rotate(90deg); }
+      .field-panel { grid-template-columns: 1fr; }
+      .field-photo { min-height: 280px; }
+      .results-grid { grid-template-columns: repeat(2, 1fr); }
       .nav-cta { display: none; }
     }
     @media (max-width: 720px) {
@@ -333,9 +390,13 @@
       .topbar { position: static; padding: 16px 0 6px; flex-wrap: wrap; }
       .topnav { gap: 12px; font-size: 0.85rem; }
       .section { padding: 28px 0; }
-      .hero { min-height: auto; padding: 24px 0 40px; }
-      .channels-panel, .execute-panel, .closing-panel, .trust-panel { padding: 32px 20px; border-radius: 24px; }
-      .channels-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero { padding: 16px 0 28px; }
+      .results-grid { grid-template-columns: 1fr; }
+      .how-demo, .results-panel, .closing-panel, .trust-panel, .vision-panel, .field-panel { border-radius: 24px; }
+      .how-demo { padding: 20px; }
+      .field-info { padding: 28px 24px; }
+      .results-panel { padding: 32px 20px; }
+      .closing-panel { padding: 32px 20px; }
       .closing-price { font-size: 1.25rem; }
     }
   </style>
@@ -345,321 +406,328 @@
   <header class="topbar">
     <a class="brand" href="#hero">TalkToDeal</a>
     <nav class="topnav" aria-label="Primary">
-      <a href="#channels">Platform</a>
-      <a href="#memory">Memory</a>
-      <a href="#industries">Industries</a>
-      <a href="/hvac">HVAC</a>
+      <a href="#how">How It Works</a>
+      <a href="#proof">HVAC Proof</a>
+      <a href="/hvac">HVAC Page</a>
       <a href="#cta">Demo</a>
     </nav>
     <a class="nav-cta" href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank" rel="noopener">Book a Demo</a>
   </header>
 
   <main>
+
     <!-- ═══ S1: Hero ═══ -->
     <section class="hero section" id="hero">
       <div class="reveal">
-        <p class="eyebrow">The Business Memory Platform</p>
-        <h1>Capture every conversation. Build business memory. Execute instantly.</h1>
+        <p class="eyebrow">For HVAC &amp; field service teams</p>
+        <h1>Your tech already said it. We turn it into action.</h1>
         <p class="hero-lead">
-          90% of business value is trapped in speech — field calls, phone conversations, emails, chats.
-          We turn all of it into structured data, persistent memory, and automated execution.
+          TalkToDeal captures what techs say on-site and turns it into work orders, estimates, follow-ups, and dispatch actions. No typing. No app. No behavior change.
         </p>
-        <div class="actions" style="justify-content:center;">
+        <div class="actions">
           <a class="button btn-primary large-btn" href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank" rel="noopener">Book a Demo</a>
           <a class="button btn-secondary large-btn" href="/hvac">See HVAC Use Case</a>
         </div>
-        <div class="hero-proof" style="justify-content:center;">
+        <div class="hero-proof">
           <span class="proof-dot"></span>
           Already powering 10+ field service teams
         </div>
       </div>
 
-      <!-- Flow visual -->
-      <div class="hero-flow reveal">
-        <div class="flow-node flow-node-dark">
-          <div class="flow-icon">&#127908;</div>
-          <div class="flow-label">Capture</div>
-        </div>
-        <div class="flow-arrow">&rarr;</div>
-        <div class="flow-node flow-node-accent">
-          <div class="flow-icon">&#129504;</div>
-          <div class="flow-label">Memory</div>
-        </div>
-        <div class="flow-arrow">&rarr;</div>
-        <div class="flow-node flow-node-dark">
-          <div class="flow-icon">&#9889;</div>
-          <div class="flow-label">Reason</div>
-        </div>
-        <div class="flow-arrow">&rarr;</div>
-        <div class="flow-node flow-node-green">
-          <div class="flow-icon">&#9654;</div>
-          <div class="flow-label">Execute</div>
+      <div class="hero-visual reveal">
+        <img src="banner-hvac-field.jpg" alt="HVAC technician on-site with wearable mic">
+        <div class="hero-overlay">
+          <div class="hero-quote">
+            "3-ton Carrier changeout, condenser coil is shot. Around forty-eight hundred, installed."
+          </div>
+          <div class="hero-chips">
+            <span class="hero-chip green">&#10003; Quote ready</span>
+            <span class="hero-chip blue">&#10003; Work order created</span>
+            <span class="hero-chip orange">&#10003; Follow-up scheduled</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ═══ S2: The Problem ═══ -->
-    <section class="problem section" id="problem">
-      <div class="problem-header reveal">
-        <p class="eyebrow">The Problem</p>
-        <h2>Your business runs on conversations. None of them are captured.</h2>
+    <!-- ═══ S2: Pain ═══ -->
+    <section class="pain section" id="pain">
+      <div class="pain-header reveal">
+        <p class="eyebrow">Sound familiar?</p>
+        <h2>The problem is not the work. It's what gets lost after.</h2>
       </div>
-      <div class="problem-grid">
-        <article class="problem-card reveal">
-          <div class="p-icon" style="background:rgba(255,69,58,0.08); color:var(--red);">&#128172;</div>
-          <h3>Field conversations vanish.</h3>
-          <p>Your team talks to customers, diagnoses problems, gives quotes — on-site, in real time. But nothing gets written down. By evening, the details are gone.</p>
+      <div class="pain-grid">
+        <article class="pain-card reveal">
+          <div class="pain-card-img">
+            <img src="banner-hvac-field.jpg" alt="Tech leaving job site">
+          </div>
+          <div class="pain-card-body">
+            <h3>Tech leaves. Details vanish.</h3>
+            <p>Diagnosis, parts, pricing, and customer intent stay in the truck instead of reaching the office.</p>
+          </div>
         </article>
-        <article class="problem-card reveal">
-          <div class="p-icon" style="background:rgba(255,159,10,0.08); color:var(--orange);">&#128222;</div>
-          <h3>Phone calls disappear after hangup.</h3>
-          <p>Customer called about a follow-up? Vendor confirmed a delivery date? You'll never find that information again — it lives in someone's memory, maybe.</p>
+        <article class="pain-card reveal">
+          <div class="pain-card-img">
+            <img src="banner-industry-voice.jpg" alt="Delayed follow-up" style="object-position: center 30%;">
+          </div>
+          <div class="pain-card-body">
+            <h3>Quotes get delayed or missed.</h3>
+            <p>By the time someone follows up, the customer has already called someone else.</p>
+          </div>
         </article>
-        <article class="problem-card reveal">
-          <div class="p-icon" style="background:rgba(191,90,242,0.08); color:var(--purple);">&#128233;</div>
-          <h3>Data is scattered across 10 tools.</h3>
-          <p>Emails, texts, voicemails, WhatsApp, CRM notes — your business knowledge is fragmented. No single source of truth. No way to search. No way to act.</p>
+        <article class="pain-card reveal">
+          <div class="pain-card-img">
+            <img src="banner-hvac-field.jpg" alt="Dispatch chaos" style="object-position: center 70%;">
+          </div>
+          <div class="pain-card-body">
+            <h3>Dispatch runs on memory.</h3>
+            <p>Your team is chasing notes, callbacks, and half-remembered conversations.</p>
+          </div>
         </article>
       </div>
     </section>
 
-    <!-- ═══ S3: Multi-Channel Inputs ═══ -->
-    <section class="channels section" id="channels">
-      <div class="channels-panel reveal">
-        <div class="channels-header">
-          <p class="eyebrow" style="color:var(--accent);">Every channel. One memory.</p>
-          <h2>We capture conversations from everywhere.</h2>
-          <p>Seven input channels. One unified business memory. Zero manual data entry.</p>
-        </div>
+    <!-- ═══ S3: How It Works ═══ -->
+    <section class="how section" id="how">
+      <div class="how-header reveal">
+        <p class="eyebrow">How It Works</p>
+        <h2>Tech speaks. AI structures. Your team acts.</h2>
+      </div>
 
-        <div class="channels-grid">
-          <div class="channel-card featured">
-            <div class="ch-icon">&#127908;</div>
-            <div class="ch-name">On-Site Mic</div>
-            <div class="ch-sub">Our MIC series hardware.<br>Clips to collar. All-day battery. No phone needed.</div>
-            <span class="ch-tag">Our Hardware</span>
+      <div class="how-steps">
+        <div class="how-step reveal">
+          <div class="how-step-num">1</div>
+          <h3>Tech speaks naturally</h3>
+          <p>On-site diagnosis, pricing, and customer requests are captured in real time.</p>
+        </div>
+        <div class="how-step reveal">
+          <div class="how-step-num" style="background:var(--green);">2</div>
+          <h3>AI structures the job</h3>
+          <p>Equipment, issues, parts, estimate range, and commitments become structured job data.</p>
+        </div>
+        <div class="how-step reveal">
+          <div class="how-step-num" style="background:var(--orange);">3</div>
+          <h3>The next action happens</h3>
+          <p>Create the work order. Prep the quote. Trigger follow-up. Update dispatch.</p>
+        </div>
+      </div>
+
+      <!-- Live demo block -->
+      <div class="how-demo reveal">
+        <!-- Left: voice input -->
+        <div class="demo-col">
+          <div class="demo-label">
+            <span class="demo-dot red"></span>
+            Tech on-site
           </div>
-          <div class="channel-card">
-            <div class="ch-icon">&#128222;</div>
-            <div class="ch-name">Phone Calls</div>
-            <div class="ch-sub">Inbound & outbound</div>
-          </div>
-          <div class="channel-card">
-            <div class="ch-icon">&#128233;</div>
-            <div class="ch-name">Email</div>
-            <div class="ch-sub">Inbox integration</div>
-          </div>
-          <div class="channel-card">
-            <div class="ch-icon">&#127760;</div>
-            <div class="ch-name">Website Chat</div>
-            <div class="ch-sub">Live chat & forms</div>
-          </div>
-          <div class="channel-card">
-            <div class="ch-icon">&#128172;</div>
-            <div class="ch-name">WeChat</div>
-            <div class="ch-sub">Messages & groups</div>
-          </div>
-          <div class="channel-card">
-            <div class="ch-icon">&#128242;</div>
-            <div class="ch-name">WhatsApp</div>
-            <div class="ch-sub">Business API</div>
-          </div>
-          <div class="channel-card">
-            <div class="ch-icon">&#128227;</div>
-            <div class="ch-name">Social Media</div>
-            <div class="ch-sub">DMs & comments</div>
+          <div class="demo-speech">
+            "Condenser coil is shot. Refrigerant's low — probably a slow leak on the TXV. Homeowner wants a full changeout. I'd quote forty-eight hundred for a 3-ton Carrier, installed."
           </div>
         </div>
 
-        <div class="channels-product">
-          <img src="HA-MIC05.png" alt="HA-MIC05 wearable microphone" width="80" height="80">
-          <div class="channels-product-info">
-            <h3>MIC Series — Our entry point</h3>
-            <p>The fastest path to business memory starts with the conversations your team already has in the field. No app. No typing. Just talk.</p>
+        <!-- Middle: arrow -->
+        <div class="demo-arrow">
+          <svg width="24" height="120" viewBox="0 0 24 120"><path d="M12 0v100m0 0l-8-10m8 10l8-10" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none"/></svg>
+          <span>AI</span>
+        </div>
+
+        <!-- Right: outputs -->
+        <div class="demo-col">
+          <div class="demo-label">
+            <span class="demo-dot blue"></span>
+            AI extraction
+          </div>
+          <div class="demo-extracts" style="margin-bottom:16px;">
+            <div class="demo-extract"><span>Diagnosis</span><strong>Coil failure + TXV leak</strong></div>
+            <div class="demo-extract"><span>Equipment</span><strong>3-ton Carrier</strong></div>
+            <div class="demo-extract"><span>Estimate</span><strong>$4,800</strong></div>
+            <div class="demo-extract"><span>Scope</span><strong>Full changeout</strong></div>
+          </div>
+
+          <div class="demo-label" style="margin-top:8px;">
+            <span class="demo-dot green"></span>
+            Actions triggered
+          </div>
+          <div class="demo-actions">
+            <div class="demo-action a-green">&#10003; Work order created</div>
+            <div class="demo-action a-blue">&#10003; Estimate drafted</div>
+            <div class="demo-action a-orange">&#10003; Task assigned</div>
+            <div class="demo-action a-white">&#10003; Customer follow-up queued</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ═══ S4: Business Memory ═══ -->
-    <section class="memory section" id="memory">
-      <div class="memory-header reveal">
-        <p class="eyebrow">The Core</p>
-        <h2>From conversations to business memory.</h2>
-      </div>
-
-      <div class="memory-flow">
-        <div class="memory-step reveal">
-          <div class="m-num" style="background:var(--accent);">1</div>
-          <h3>Capture</h3>
-          <p>Raw voice, text, and media from any channel — field, phone, email, chat, social. Always on. Always listening.</p>
+    <!-- ═══ S4: Built for the Field ═══ -->
+    <section class="field section" id="field">
+      <div class="field-panel reveal">
+        <div class="field-photo">
+          <img src="HA-MIC05.png" alt="TalkToDeal MIC worn in the field" style="object-fit:contain; padding:40px; background:linear-gradient(180deg,#f0f0f2,#e4e5e8);">
         </div>
-        <div class="memory-step reveal">
-          <div class="m-num" style="background:var(--purple);">2</div>
-          <h3>Structure</h3>
-          <p>AI extracts entities, intent, pricing, commitments, and relationships. Unstructured speech becomes structured data.</p>
-        </div>
-        <div class="memory-step reveal">
-          <div class="m-num" style="background:var(--green);">3</div>
-          <h3>Remember</h3>
-          <p>Persistent memory layer — searchable, connected, growing. Every conversation becomes a permanent business asset.</p>
-        </div>
-      </div>
-
-      <div class="memory-quote reveal">
-        <p>Every conversation your business has is either an asset or a liability.<br><strong>We make sure it's an asset.</strong></p>
-      </div>
-    </section>
-
-    <!-- ═══ S5: Reason & Execute ═══ -->
-    <section class="execute section" id="execute">
-      <div class="execute-panel reveal">
-        <div class="execute-header">
-          <p class="eyebrow" style="color:var(--green);">The Output</p>
-          <h2>Memory that acts.</h2>
-          <p>AI doesn't just remember — it identifies what to do next and does it.</p>
-        </div>
-
-        <div class="execute-grid">
-          <div class="execute-card">
-            <div class="ex-icon" style="background:rgba(48,209,88,0.12); color:var(--green);">&#128176;</div>
-            <div>
-              <h3>Opportunities</h3>
-              <p>Customer mentioned a second unit? AI creates the upsell quote before your team even asks.</p>
+        <div class="field-info">
+          <p class="eyebrow">The Hardware</p>
+          <h2>Built for the field.</h2>
+          <p>The fastest path to better data is the conversation your team is already having.</p>
+          <div class="field-points">
+            <div class="field-point">
+              <span class="field-check"><svg viewBox="0 0 20 20" fill="none"><path d="M5 10l3 3 7-7" stroke="#0071e3" stroke-width="2" stroke-linecap="round"/></svg></span>
+              Clips to collar or pocket
+            </div>
+            <div class="field-point">
+              <span class="field-check"><svg viewBox="0 0 20 20" fill="none"><path d="M5 10l3 3 7-7" stroke="#0071e3" stroke-width="2" stroke-linecap="round"/></svg></span>
+              All-day battery
+            </div>
+            <div class="field-point">
+              <span class="field-check"><svg viewBox="0 0 20 20" fill="none"><path d="M5 10l3 3 7-7" stroke="#0071e3" stroke-width="2" stroke-linecap="round"/></svg></span>
+              No phone workflow required
+            </div>
+            <div class="field-point">
+              <span class="field-check"><svg viewBox="0 0 20 20" fill="none"><path d="M5 10l3 3 7-7" stroke="#0071e3" stroke-width="2" stroke-linecap="round"/></svg></span>
+              No new habit to train
             </div>
           </div>
-          <div class="execute-card">
-            <div class="ex-icon" style="background:rgba(255,69,58,0.12); color:var(--red);">&#9888;</div>
-            <div>
-              <h3>Risks</h3>
-              <p>Unhappy customer tone? Missed commitment? AI flags it and escalates before it becomes a problem.</p>
-            </div>
+          <div class="field-bottom">
+            <p>No typing. No extra step. Just talk like you already do.</p>
           </div>
-          <div class="execute-card">
-            <div class="ex-icon" style="background:rgba(0,113,227,0.12); color:var(--accent);">&#9989;</div>
-            <div>
-              <h3>Tasks</h3>
-              <p>"I told them we'd send someone Tuesday" — AI creates the dispatch task, assigns the tech, sends the confirm.</p>
-            </div>
-          </div>
-          <div class="execute-card">
-            <div class="ex-icon" style="background:rgba(255,159,10,0.12); color:var(--orange);">&#128197;</div>
-            <div>
-              <h3>Follow-ups</h3>
-              <p>"Check back in 30 days" — AI schedules the follow-up, preps the context, and reminds at the right time.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="execute-outputs">
-          <span class="output-chip">Work Orders</span>
-          <span class="output-chip">Invoices</span>
-          <span class="output-chip">Dispatch</span>
-          <span class="output-chip">Estimates</span>
-          <span class="output-chip">CRM Updates</span>
-          <span class="output-chip">Follow-up Calls</span>
-          <span class="output-chip">Email Reports</span>
         </div>
       </div>
     </section>
 
-    <!-- ═══ S6: Industry Proof ═══ -->
-    <section class="industries section" id="industries">
-      <div class="industries-header reveal">
-        <p class="eyebrow">Proven in the field</p>
-        <h2>Ready for every trade.</h2>
+    <!-- ═══ S5: HVAC Proof ═══ -->
+    <section class="proof section" id="proof">
+      <div class="proof-header reveal">
+        <p class="eyebrow">Proven in HVAC</p>
+        <h2>From service calls to changeout estimates.</h2>
+        <p class="sub">TalkToDeal captures the details that usually disappear.</p>
       </div>
 
-      <div class="industries-grid">
-        <article class="industry-card main reveal">
-          <div class="ind-tag">
-            <span class="ind-dot" style="background:var(--green);"></span>
-            Live
+      <div class="proof-grid">
+        <article class="proof-card reveal">
+          <div class="proof-card-top">
+            <div class="proof-type">Emergency Repair</div>
+            <div class="proof-voice">"Capacitor is blown. Fan motor too. About $650 total."</div>
           </div>
-          <h3>HVAC</h3>
-          <p>Compressor diagnostics, refrigerant levels, changeout estimates, PM schedules, warranty work — captured from tech voice, turned into work orders and dispatch in real time. Already deployed with 10+ HVAC teams.</p>
-          <a class="ind-link" href="/hvac">
-            See full HVAC use case
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-        </article>
-        <article class="industry-card secondary reveal">
-          <div class="ind-tag" style="color:var(--text-soft);">
-            <span class="ind-dot" style="background:var(--orange);"></span>
-            Next
+          <div class="proof-card-bottom">
+            <div class="proof-output"><span class="po-dot" style="background:var(--green);"></span> Repair documented</div>
+            <div class="proof-output"><span class="po-dot" style="background:var(--accent);"></span> Parts recorded</div>
+            <div class="proof-output"><span class="po-dot" style="background:var(--orange);"></span> Invoice ready</div>
           </div>
-          <h3>Plumbing</h3>
-          <p>Water heater installs, drain camera inspections, repipe estimates — same voice-to-action pipeline.</p>
-          <span class="ind-soon">Coming Q3 2026</span>
         </article>
-        <article class="industry-card secondary reveal">
-          <div class="ind-tag" style="color:var(--text-soft);">
-            <span class="ind-dot" style="background:var(--orange);"></span>
-            Next
+        <article class="proof-card reveal">
+          <div class="proof-card-top">
+            <div class="proof-type">PM Visit</div>
+            <div class="proof-voice">"Drain line flushed. Contactor should be replaced next visit."</div>
           </div>
-          <h3>Electrical</h3>
-          <p>Panel upgrades, EV charger installs, troubleshooting — from spoken diagnosis to permit-ready work orders.</p>
-          <span class="ind-soon">Coming Q4 2026</span>
+          <div class="proof-card-bottom">
+            <div class="proof-output"><span class="po-dot" style="background:var(--green);"></span> Maintenance logged</div>
+            <div class="proof-output"><span class="po-dot" style="background:var(--orange);"></span> Upsell flagged</div>
+            <div class="proof-output"><span class="po-dot" style="background:var(--accent);"></span> Follow-up scheduled</div>
+          </div>
         </article>
+        <article class="proof-card reveal">
+          <div class="proof-card-top">
+            <div class="proof-type">New Install Estimate</div>
+            <div class="proof-voice">"4-ton Carrier Infinity. Ductwork mod needed. Around $12,500."</div>
+          </div>
+          <div class="proof-card-bottom">
+            <div class="proof-output"><span class="po-dot" style="background:var(--green);"></span> Proposal drafted</div>
+            <div class="proof-output"><span class="po-dot" style="background:var(--accent);"></span> Scope captured</div>
+            <div class="proof-output"><span class="po-dot" style="background:var(--orange);"></span> Office notified</div>
+          </div>
+        </article>
+      </div>
+
+      <div class="proof-link reveal">
+        <a href="/hvac">
+          See full HVAC page
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
     </section>
 
-    <!-- ═══ S7: Trust ═══ -->
+    <!-- ═══ S6: Results ═══ -->
+    <section class="results section" id="results">
+      <div class="results-panel reveal">
+        <div class="results-header">
+          <p class="eyebrow" style="color:var(--green);">What You Get Back</p>
+          <h2>Better memory only matters if it changes the numbers.</h2>
+        </div>
+        <div class="results-grid">
+          <div class="result-card">
+            <h3>Faster quotes</h3>
+            <p>Follow-ups happen while the customer is still warm.</p>
+          </div>
+          <div class="result-card">
+            <h3>Fewer missed details</h3>
+            <p>Model numbers, issues, and customer requests stop getting lost.</p>
+          </div>
+          <div class="result-card">
+            <h3>Less admin</h3>
+            <p>The office doesn't need to reconstruct every service call by hand.</p>
+          </div>
+          <div class="result-card">
+            <h3>More closed jobs</h3>
+            <p>Spoken intent becomes timely action instead of forgotten context.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ S7: Vision (restrained) ═══ -->
+    <section class="vision section" id="vision">
+      <div class="vision-panel reveal">
+        <p class="eyebrow">What's Next</p>
+        <h2>Start with field voice. Expand from there.</h2>
+        <p>
+          TalkToDeal begins with the highest-value conversations: the ones happening on-site.
+          Then it can extend into calls, email, web, and other channels to build a fuller business memory over time.
+        </p>
+        <div class="vision-strip">
+          <span class="vision-chip active">Field mic</span>
+          <span class="vision-chip future">Phone</span>
+          <span class="vision-chip future">Email</span>
+          <span class="vision-chip future">Web</span>
+          <span class="vision-chip future">More later</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ S8: Trust ═══ -->
     <section class="trust section" id="trust">
       <div class="trust-panel reveal">
-        <div class="trust-label">Integrations</div>
+        <div class="trust-label">Works with your stack</div>
         <div class="trust-chips">
           <span class="trust-chip">ServiceTitan</span>
           <span class="trust-chip">Housecall Pro</span>
           <span class="trust-chip">Jobber</span>
           <span class="trust-chip">QuickBooks</span>
-          <span class="trust-chip">HubSpot</span>
-          <span class="trust-chip">Salesforce</span>
-          <span class="trust-chip">+ more</span>
         </div>
         <div class="trust-badges">
-          <div class="trust-badge">
-            <span class="trust-badge-dot" style="background:var(--green);"></span>
-            End-to-end encrypted
-          </div>
-          <div class="trust-badge">
-            <span class="trust-badge-dot" style="background:var(--accent);"></span>
-            SOC 2 ready
-          </div>
-          <div class="trust-badge">
-            <span class="trust-badge-dot" style="background:var(--purple);"></span>
-            TCPA compliant
-          </div>
-          <div class="trust-badge">
-            <span class="trust-badge-dot" style="background:var(--orange);"></span>
-            GDPR aware
-          </div>
+          <div class="trust-badge"><span class="tb-dot" style="background:var(--green);"></span> End-to-end encrypted</div>
+          <div class="trust-badge"><span class="tb-dot" style="background:var(--accent);"></span> TCPA compliant</div>
+          <div class="trust-badge"><span class="tb-dot" style="background:var(--orange);"></span> SOC 2 ready</div>
         </div>
       </div>
     </section>
 
-    <!-- ═══ S8: CTA ═══ -->
+    <!-- ═══ S9: CTA ═══ -->
     <section class="closing section" id="cta">
       <div class="closing-panel reveal">
         <p class="eyebrow">Get Started</p>
-        <h2>Stop losing business conversations.</h2>
-        <p class="closing-sub">Start building your business memory today.</p>
+        <h2>Stop losing job details.</h2>
+        <p class="closing-sub">Start with one team. See the difference in days, not months.</p>
         <div class="closing-price">Starting at $99&ndash;199/month per team</div>
-        <p class="closing-value">From voice to execution in seconds.</p>
         <div class="actions" style="justify-content:center;">
           <a class="button btn-primary large-btn" href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank" rel="noopener">Book a 15-min Demo</a>
           <a class="button btn-green large-btn" href="/call">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 014.12 4.18 2 2 0 016.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
             Try AI Demo
           </a>
-          <a class="button btn-secondary large-btn" href="/hvac">See HVAC Use Case</a>
+          <a class="button btn-secondary large-btn" href="tel:6699000008">Call 669-900-0008</a>
         </div>
-        <div class="closing-proof">
-          <span class="proof-dot"></span>
-          Already powering 10+ field service teams across the US
-        </div>
+        <p class="closing-fit">Best fit for HVAC teams that live on service calls, estimates, and dispatch.</p>
       </div>
     </section>
+
   </main>
 
   <footer class="footer">
@@ -677,19 +745,10 @@
   </footer>
 
   <script>
-    // Reveal on scroll
     var obs = new IntersectionObserver(function(entries) {
       entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('is-visible'); });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
-
-    // Topbar shrink
-    var topbar = document.querySelector('.topbar');
-    if (topbar) {
-      window.addEventListener('scroll', function() {
-        topbar.style.opacity = window.scrollY > 100 ? '0.97' : '1';
-      });
-    }
   </script>
 </body>
 </html>
