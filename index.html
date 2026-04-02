@@ -3,407 +3,660 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TalkToDeal | HVAC Field Service Automation — Voice to Work Order</title>
-  <meta
-    name="description"
-    content="TalkToDeal turns HVAC tech field conversations into work orders, estimates, and dispatch actions automatically. Compressor swaps, refrigerant leaks, PM visits — captured in real time. No typing. No app."
-  >
-  <meta name="keywords" content="HVAC field service software, HVAC work order automation, HVAC dispatch software, voice to work order, HVAC job management, field service voice capture, HVAC estimating tool, service call documentation, HVAC technician productivity, preventive maintenance tracking">
+  <title>TalkToDeal — Capture Every Conversation. Build Business Memory. Execute Instantly.</title>
+  <meta name="description" content="TalkToDeal turns business conversations from any channel — field mic, phone, email, chat, social — into structured data, business memory, and automated execution. Voice to action, not just voice to text.">
+  <meta name="keywords" content="business memory, voice to action, conversation capture, field service automation, AI work order, multi-channel data capture, enterprise memory layer, voice AI platform">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  >
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafafa; --surface: #fff; --dark: #0a0b10; --dark-soft: #151720;
+      --text: #111; --text-soft: rgba(17,17,17,0.65); --text-inv: #fff; --text-inv-soft: rgba(255,255,255,0.65);
+      --accent: #0071e3; --accent-soft: rgba(0,113,227,0.1);
+      --green: #30d158; --orange: #ff9f0a; --purple: #bf5af2; --red: #ff453a; --cyan: #64d2ff;
+      --line: rgba(17,17,17,0.07); --line-inv: rgba(255,255,255,0.08);
+      --shadow: 0 20px 60px rgba(0,0,0,0.07);
+      --r-xl: 42px; --r-lg: 28px; --r-md: 20px;
+      --w: min(1200px, calc(100% - 32px));
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: "Inter", sans-serif; color: var(--text); background: var(--bg); }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ─── Topbar ─── */
+    .topbar {
+      position: sticky; top: 0; z-index: 30;
+      width: var(--w); margin: 0 auto; padding: 14px 0;
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    }
+    .brand { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; }
+    .topnav { display: flex; flex-wrap: wrap; gap: 18px; font-size: 0.92rem; color: var(--text-soft); }
+    .topnav a:hover { color: var(--text); }
+    .nav-cta {
+      min-height: 38px; padding: 0 16px; font-size: 0.88rem;
+      background: var(--accent); color: #fff; border-radius: 999px;
+      display: inline-flex; align-items: center; font-weight: 600;
+      transition: background 0.15s;
+    }
+    .nav-cta:hover { background: #005bb5; }
+
+    /* ─── Global ─── */
+    .section { width: var(--w); margin: 0 auto; padding: 40px 0; }
+    .eyebrow {
+      margin: 0 0 14px; font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent);
+    }
+    h1, h2, h3 { margin: 0; letter-spacing: -0.05em; }
+    h1 { font-size: clamp(2.8rem, 6.5vw, 5.2rem); line-height: 0.96; font-weight: 900; }
+    h2 { font-size: clamp(2rem, 4.5vw, 3.6rem); line-height: 1; font-weight: 800; }
+    h3 { font-size: 1.3rem; line-height: 1.15; font-weight: 700; }
+    p { margin: 0; color: var(--text-soft); line-height: 1.65; font-size: 1rem; }
+
+    .button {
+      min-height: 50px; padding: 0 24px; display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 999px; border: 1px solid transparent; font-weight: 600; font-size: 0.95rem;
+      cursor: pointer; transition: transform 0.15s, background 0.15s; gap: 8px;
+    }
+    .button:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #005bb5; }
+    .btn-secondary { background: rgba(255,255,255,0.8); border-color: var(--line); color: var(--text); }
+    .btn-secondary:hover { background: #fff; }
+    .btn-outline-light { background: transparent; border-color: var(--line-inv); color: var(--text-inv); }
+    .btn-outline-light:hover { background: rgba(255,255,255,0.08); }
+    .btn-green { background: var(--green); color: #fff; }
+    .large-btn { min-height: 56px; padding: 0 32px; font-size: 1.05rem; }
+
+    .actions { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+
+    /* ─── Reveal ─── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    /* ═══ S1: Hero ═══ */
+    .hero { min-height: calc(100vh - 68px); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 0 60px; }
+    .hero h1 { max-width: 16ch; margin: 0 auto; }
+    .hero-lead { max-width: 54ch; font-size: 1.2rem; margin: 20px auto 0; }
+    .hero-proof { display: flex; align-items: center; gap: 8px; margin-top: 24px; font-size: 0.88rem; font-weight: 600; color: var(--text-soft); }
+    .proof-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* Hero flow visual */
+    .hero-flow {
+      margin-top: 48px; width: 100%; max-width: 800px;
+      display: flex; align-items: center; justify-content: center; gap: 0;
+    }
+    .flow-node {
+      padding: 18px 24px; border-radius: var(--r-md);
+      text-align: center; flex: 1; min-width: 0;
+    }
+    .flow-node-dark { background: var(--dark); color: var(--text-inv); }
+    .flow-node-accent { background: var(--accent); color: #fff; }
+    .flow-node-green { background: var(--green); color: #fff; }
+    .flow-icon { font-size: 1.5rem; margin-bottom: 6px; }
+    .flow-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+    .flow-arrow {
+      flex-shrink: 0; width: 40px; display: flex; align-items: center; justify-content: center;
+      color: var(--text-soft); font-size: 1.2rem;
+    }
+
+    /* ═══ S2: Problem ═══ */
+    .problem { padding: 80px 0 40px; }
+    .problem-header { margin-bottom: 32px; }
+    .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .problem-card {
+      padding: 28px; border-radius: var(--r-lg);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
+      border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .problem-card .p-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: grid; place-items: center; margin-bottom: 16px;
+      font-size: 1.2rem;
+    }
+    .problem-card h3 { margin-bottom: 8px; font-size: 1.1rem; }
+    .problem-card p { font-size: 0.92rem; }
+
+    /* ═══ S3: Channels ═══ */
+    .channels {
+      padding: 60px 0;
+    }
+    .channels-panel {
+      padding: 56px 48px; border-radius: var(--r-xl);
+      background: linear-gradient(180deg, var(--dark) 0%, var(--dark-soft) 100%);
+      box-shadow: var(--shadow);
+    }
+    .channels-header { text-align: center; margin-bottom: 40px; }
+    .channels-header h2 { color: var(--text-inv); }
+    .channels-header p { color: var(--text-inv-soft); margin-top: 10px; font-size: 1.05rem; }
+
+    .channels-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+      margin-bottom: 32px;
+    }
+    .channel-card {
+      padding: 20px 16px; border-radius: 18px; text-align: center;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--line-inv);
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .channel-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
+    .channel-card.featured {
+      background: rgba(0,113,227,0.1); border-color: rgba(0,113,227,0.25);
+      grid-row: span 2; display: flex; flex-direction: column; justify-content: center;
+    }
+    .ch-icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .ch-name { font-size: 0.88rem; font-weight: 700; color: var(--text-inv); }
+    .ch-sub { font-size: 0.72rem; color: var(--text-inv-soft); margin-top: 4px; line-height: 1.4; }
+    .ch-tag {
+      display: inline-block; margin-top: 8px; padding: 3px 10px; border-radius: 999px;
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      background: rgba(0,113,227,0.15); color: var(--accent);
+    }
+
+    .channels-product {
+      display: flex; align-items: center; gap: 24px;
+      padding: 24px 28px; border-radius: 20px;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--line-inv);
+    }
+    .channels-product img { width: 80px; height: 80px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.3)); }
+    .channels-product-info h3 { color: var(--text-inv); font-size: 1.05rem; margin-bottom: 4px; }
+    .channels-product-info p { color: var(--text-inv-soft); font-size: 0.85rem; }
+
+    /* ═══ S4: Memory ═══ */
+    .memory { padding: 80px 0; }
+    .memory-header { text-align: center; margin-bottom: 40px; }
+    .memory-flow {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    .memory-step {
+      padding: 36px 28px; border-radius: var(--r-lg); text-align: center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
+      border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .memory-step .m-num {
+      width: 48px; height: 48px; border-radius: 50%; margin: 0 auto 16px;
+      display: grid; place-items: center;
+      font-size: 1.1rem; font-weight: 800; color: #fff;
+    }
+    .memory-step h3 { margin-bottom: 8px; }
+    .memory-step p { font-size: 0.92rem; }
+    .memory-quote {
+      margin-top: 32px; text-align: center; padding: 32px;
+      border-radius: var(--r-lg);
+      background: linear-gradient(180deg, var(--dark), var(--dark-soft));
+    }
+    .memory-quote p { color: var(--text-inv-soft); font-size: 1.15rem; font-style: italic; }
+    .memory-quote strong { color: var(--text-inv); font-style: normal; }
+
+    /* ═══ S5: Execute ═══ */
+    .execute { padding: 60px 0; }
+    .execute-panel {
+      padding: 56px 48px; border-radius: var(--r-xl);
+      background: linear-gradient(135deg, #0a1628 0%, var(--dark) 50%, #0a1020 100%);
+    }
+    .execute-header { text-align: center; margin-bottom: 40px; }
+    .execute-header h2 { color: var(--text-inv); }
+    .execute-header p { color: var(--text-inv-soft); margin-top: 10px; font-size: 1.05rem; }
+
+    .execute-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .execute-card {
+      padding: 24px; border-radius: 20px;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--line-inv);
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .ex-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: grid; place-items: center; flex-shrink: 0;
+      font-size: 1.1rem;
+    }
+    .execute-card h3 { color: var(--text-inv); font-size: 1rem; margin-bottom: 4px; }
+    .execute-card p { color: var(--text-inv-soft); font-size: 0.85rem; }
+
+    .execute-outputs {
+      margin-top: 24px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    }
+    .output-chip {
+      padding: 8px 16px; border-radius: 999px; font-size: 0.82rem; font-weight: 600;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--line-inv);
+      color: var(--text-inv-soft);
+    }
+
+    /* ═══ S6: Industry Proof ═══ */
+    .industries { padding: 80px 0; }
+    .industries-header { text-align: center; margin-bottom: 36px; }
+    .industries-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; }
+    .industry-card {
+      padding: 32px; border-radius: var(--r-lg);
+      border: 1px solid var(--line); box-shadow: var(--shadow);
+      display: flex; flex-direction: column;
+    }
+    .industry-card.main {
+      grid-row: span 2;
+      background: linear-gradient(180deg, var(--dark), var(--dark-soft));
+      border-color: var(--line-inv);
+    }
+    .industry-card.main h3, .industry-card.main .ind-tag { color: var(--text-inv); }
+    .industry-card.main p { color: var(--text-inv-soft); }
+    .industry-card.secondary {
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
+    }
+    .ind-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 14px;
+    }
+    .ind-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .industry-card h3 { margin-bottom: 8px; }
+    .industry-card p { font-size: 0.92rem; flex: 1; }
+    .ind-link {
+      margin-top: 16px; font-size: 0.88rem; font-weight: 600; color: var(--accent);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .ind-soon {
+      margin-top: 12px; padding: 4px 12px; border-radius: 999px;
+      display: inline-block; font-size: 0.72rem; font-weight: 700;
+      background: rgba(0,0,0,0.04); color: var(--text-soft);
+    }
+
+    /* ═══ S7: Trust ═══ */
+    .trust { padding: 40px 0; }
+    .trust-panel {
+      padding: 40px 48px; border-radius: var(--r-xl);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
+      border: 1px solid var(--line); box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .trust-label {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-soft); margin-bottom: 16px;
+    }
+    .trust-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 24px; }
+    .trust-chip {
+      padding: 8px 18px; border-radius: 999px;
+      background: var(--accent-soft); border: 1px solid rgba(0,113,227,0.12);
+      font-size: 0.85rem; font-weight: 600; color: var(--accent);
+    }
+    .trust-badges { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; }
+    .trust-badge {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.85rem; font-weight: 600; color: var(--text-soft);
+    }
+    .trust-badge-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* ═══ S8: CTA ═══ */
+    .closing { padding: 40px 0 48px; }
+    .closing-panel {
+      padding: 64px 48px; border-radius: var(--r-xl); text-align: center;
+      background: radial-gradient(circle at top center, rgba(0,113,227,0.14), transparent 32%),
+                  linear-gradient(180deg, #fff 0%, #eef2f8 100%);
+      border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .closing-sub { margin-top: 8px; font-size: 1.15rem; }
+    .closing-price { margin-top: 24px; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.04em; color: var(--text); }
+    .closing-value { margin-top: 6px; font-size: 0.95rem; color: var(--accent); font-weight: 600; }
+    .closing-panel .actions { justify-content: center; }
+    .closing-proof {
+      display: flex; align-items: center; gap: 8px; justify-content: center;
+      margin-top: 24px; font-size: 0.88rem; font-weight: 600; color: var(--text-soft);
+    }
+
+    /* ─── Footer ─── */
+    .footer { padding: 28px 0; border-top: 1px solid var(--line); }
+    .footer-inner {
+      width: var(--w); margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-contact { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-soft); }
+    .footer-contact a:hover { color: var(--accent); }
+    .footer-sep { color: var(--line); }
+    .footer-copy { font-size: 0.85rem; color: var(--text-soft); }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 980px) {
+      .hero-flow { flex-direction: column; max-width: 320px; }
+      .flow-arrow { transform: rotate(90deg); width: auto; height: 32px; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .channels-grid { grid-template-columns: repeat(2, 1fr); }
+      .channel-card.featured { grid-row: span 1; }
+      .memory-flow { grid-template-columns: 1fr; }
+      .execute-grid { grid-template-columns: 1fr; }
+      .industries-grid { grid-template-columns: 1fr; }
+      .industry-card.main { grid-row: span 1; }
+      .nav-cta { display: none; }
+    }
+    @media (max-width: 720px) {
+      :root { --w: min(1200px, calc(100% - 20px)); }
+      .topbar { position: static; padding: 16px 0 6px; flex-wrap: wrap; }
+      .topnav { gap: 12px; font-size: 0.85rem; }
+      .section { padding: 28px 0; }
+      .hero { min-height: auto; padding: 24px 0 40px; }
+      .channels-panel, .execute-panel, .closing-panel, .trust-panel { padding: 32px 20px; border-radius: 24px; }
+      .channels-grid { grid-template-columns: repeat(2, 1fr); }
+      .closing-price { font-size: 1.25rem; }
+    }
+  </style>
 </head>
 <body>
+
   <header class="topbar">
     <a class="brand" href="#hero">TalkToDeal</a>
     <nav class="topnav" aria-label="Primary">
-      <a href="#try">Try It</a>
-      <a href="#pain">Problem</a>
-      <a href="#solution">Solution</a>
-      <a href="#value">Value</a>
+      <a href="#channels">Platform</a>
+      <a href="#memory">Memory</a>
+      <a href="#industries">Industries</a>
+      <a href="/hvac">HVAC</a>
       <a href="#cta">Demo</a>
     </nav>
-    <a class="button primary nav-cta" href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank" rel="noopener">Book a Demo</a>
+    <a class="nav-cta" href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank" rel="noopener">Book a Demo</a>
   </header>
 
   <main>
-    <!-- ═══ Screen 1: Hero + Live Demo (merged) ═══ -->
+    <!-- ═══ S1: Hero ═══ -->
     <section class="hero section" id="hero">
-      <div class="hero-copy reveal">
-        <p class="eyebrow">For HVAC &amp; field service businesses</p>
-        <h1>Get more paid jobs from every service call.</h1>
+      <div class="reveal">
+        <p class="eyebrow">The Business Memory Platform</p>
+        <h1>Capture every conversation. Build business memory. Execute instantly.</h1>
         <p class="hero-lead">
-          Your techs already describe every compressor swap, refrigerant leak, and changeout on-site.
-          We capture it and turn it into work orders, estimates, and dispatch actions automatically.
+          90% of business value is trapped in speech — field calls, phone conversations, emails, chats.
+          We turn all of it into structured data, persistent memory, and automated execution.
         </p>
-        <div class="actions">
-          <a class="button primary" href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank" rel="noopener">Book a 15-min Demo</a>
-          <a class="button secondary" href="tel:6699000008">Call 669-900-0008</a>
+        <div class="actions" style="justify-content:center;">
+          <a class="button btn-primary large-btn" href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank" rel="noopener">Book a Demo</a>
+          <a class="button btn-secondary large-btn" href="/hvac">See HVAC Use Case</a>
         </div>
-        <div class="hero-proof">
+        <div class="hero-proof" style="justify-content:center;">
           <span class="proof-dot"></span>
-          Already helping 10+ HVAC teams capture every job
+          Already powering 10+ field service teams
         </div>
       </div>
 
-      <!-- Hero right: LIVE DEMO (not abstract art) -->
-      <div class="hero-demo reveal">
-        <div class="demo-input">
-          <div class="demo-label">
-            <span class="demo-dot recording"></span>
-            Your tech on a service call:
-          </div>
-          <blockquote>
-            "Condenser coil is shot. Refrigerant's low too &mdash; probably a slow leak on the TXV. Homeowner wants a full changeout. I'd quote forty-eight hundred for a 3-ton Carrier unit, installed."
-          </blockquote>
+      <!-- Flow visual -->
+      <div class="hero-flow reveal">
+        <div class="flow-node flow-node-dark">
+          <div class="flow-icon">&#127908;</div>
+          <div class="flow-label">Capture</div>
         </div>
-
-        <div class="demo-arrow-h">
-          <svg width="100%" height="24" viewBox="0 0 200 24" preserveAspectRatio="none">
-            <path d="M0 12h180m0 0l-12-8m12 8l-12 8" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none"/>
-          </svg>
-          <span>AI processes instantly</span>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node flow-node-accent">
+          <div class="flow-icon">&#129504;</div>
+          <div class="flow-label">Memory</div>
         </div>
-
-        <div class="demo-output-dark">
-          <div class="demo-label">
-            <span class="demo-dot generated"></span>
-            Work order generated:
-          </div>
-          <div class="output-table-dark">
-            <div class="output-row-dark">
-              <span>Diagnosis</span><strong>Condenser coil failure + TXV refrigerant leak</strong>
-            </div>
-            <div class="output-row-dark">
-              <span>Recommendation</span><strong>Full system changeout &mdash; 3-ton Carrier</strong>
-            </div>
-            <div class="output-row-dark">
-              <span>Estimate</span><strong>$4,800 (equipment + labor)</strong>
-            </div>
-            <div class="output-row-dark">
-              <span>Status</span><strong class="status-orange">Awaiting customer approval</strong>
-            </div>
-          </div>
-          <p class="output-ready">Ready for dispatch / invoicing / follow-up call</p>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node flow-node-dark">
+          <div class="flow-icon">&#9889;</div>
+          <div class="flow-label">Reason</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node flow-node-green">
+          <div class="flow-icon">&#9654;</div>
+          <div class="flow-label">Execute</div>
         </div>
       </div>
     </section>
 
-    <!-- ═══ Try It: Demo Navigation ═══ -->
-    <section class="demo-nav section" id="try">
-      <div class="demo-nav-inner reveal">
-        <div class="demo-nav-header">
-          <p class="eyebrow">Try It Now</p>
-          <h2>Experience TalkToDeal in 60 seconds.</h2>
-          <p class="demo-nav-sub">Two ways to see what your techs' voice data can do — no signup required.</p>
+    <!-- ═══ S2: The Problem ═══ -->
+    <section class="problem section" id="problem">
+      <div class="problem-header reveal">
+        <p class="eyebrow">The Problem</p>
+        <h2>Your business runs on conversations. None of them are captured.</h2>
+      </div>
+      <div class="problem-grid">
+        <article class="problem-card reveal">
+          <div class="p-icon" style="background:rgba(255,69,58,0.08); color:var(--red);">&#128172;</div>
+          <h3>Field conversations vanish.</h3>
+          <p>Your team talks to customers, diagnoses problems, gives quotes — on-site, in real time. But nothing gets written down. By evening, the details are gone.</p>
+        </article>
+        <article class="problem-card reveal">
+          <div class="p-icon" style="background:rgba(255,159,10,0.08); color:var(--orange);">&#128222;</div>
+          <h3>Phone calls disappear after hangup.</h3>
+          <p>Customer called about a follow-up? Vendor confirmed a delivery date? You'll never find that information again — it lives in someone's memory, maybe.</p>
+        </article>
+        <article class="problem-card reveal">
+          <div class="p-icon" style="background:rgba(191,90,242,0.08); color:var(--purple);">&#128233;</div>
+          <h3>Data is scattered across 10 tools.</h3>
+          <p>Emails, texts, voicemails, WhatsApp, CRM notes — your business knowledge is fragmented. No single source of truth. No way to search. No way to act.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ═══ S3: Multi-Channel Inputs ═══ -->
+    <section class="channels section" id="channels">
+      <div class="channels-panel reveal">
+        <div class="channels-header">
+          <p class="eyebrow" style="color:var(--accent);">Every channel. One memory.</p>
+          <h2>We capture conversations from everywhere.</h2>
+          <p>Seven input channels. One unified business memory. Zero manual data entry.</p>
         </div>
-        <div class="demo-nav-grid">
-          <!-- Card 1: Phone AI Demo -->
-          <a class="demo-nav-card" href="https://talktodeal.com/call">
-            <div class="demo-nav-icon phone-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 014.12 4.18 2 2 0 016.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-              </svg>
+
+        <div class="channels-grid">
+          <div class="channel-card featured">
+            <div class="ch-icon">&#127908;</div>
+            <div class="ch-name">On-Site Mic</div>
+            <div class="ch-sub">Our MIC series hardware.<br>Clips to collar. All-day battery. No phone needed.</div>
+            <span class="ch-tag">Our Hardware</span>
+          </div>
+          <div class="channel-card">
+            <div class="ch-icon">&#128222;</div>
+            <div class="ch-name">Phone Calls</div>
+            <div class="ch-sub">Inbound & outbound</div>
+          </div>
+          <div class="channel-card">
+            <div class="ch-icon">&#128233;</div>
+            <div class="ch-name">Email</div>
+            <div class="ch-sub">Inbox integration</div>
+          </div>
+          <div class="channel-card">
+            <div class="ch-icon">&#127760;</div>
+            <div class="ch-name">Website Chat</div>
+            <div class="ch-sub">Live chat & forms</div>
+          </div>
+          <div class="channel-card">
+            <div class="ch-icon">&#128172;</div>
+            <div class="ch-name">WeChat</div>
+            <div class="ch-sub">Messages & groups</div>
+          </div>
+          <div class="channel-card">
+            <div class="ch-icon">&#128242;</div>
+            <div class="ch-name">WhatsApp</div>
+            <div class="ch-sub">Business API</div>
+          </div>
+          <div class="channel-card">
+            <div class="ch-icon">&#128227;</div>
+            <div class="ch-name">Social Media</div>
+            <div class="ch-sub">DMs & comments</div>
+          </div>
+        </div>
+
+        <div class="channels-product">
+          <img src="HA-MIC05.png" alt="HA-MIC05 wearable microphone" width="80" height="80">
+          <div class="channels-product-info">
+            <h3>MIC Series — Our entry point</h3>
+            <p>The fastest path to business memory starts with the conversations your team already has in the field. No app. No typing. Just talk.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ S4: Business Memory ═══ -->
+    <section class="memory section" id="memory">
+      <div class="memory-header reveal">
+        <p class="eyebrow">The Core</p>
+        <h2>From conversations to business memory.</h2>
+      </div>
+
+      <div class="memory-flow">
+        <div class="memory-step reveal">
+          <div class="m-num" style="background:var(--accent);">1</div>
+          <h3>Capture</h3>
+          <p>Raw voice, text, and media from any channel — field, phone, email, chat, social. Always on. Always listening.</p>
+        </div>
+        <div class="memory-step reveal">
+          <div class="m-num" style="background:var(--purple);">2</div>
+          <h3>Structure</h3>
+          <p>AI extracts entities, intent, pricing, commitments, and relationships. Unstructured speech becomes structured data.</p>
+        </div>
+        <div class="memory-step reveal">
+          <div class="m-num" style="background:var(--green);">3</div>
+          <h3>Remember</h3>
+          <p>Persistent memory layer — searchable, connected, growing. Every conversation becomes a permanent business asset.</p>
+        </div>
+      </div>
+
+      <div class="memory-quote reveal">
+        <p>Every conversation your business has is either an asset or a liability.<br><strong>We make sure it's an asset.</strong></p>
+      </div>
+    </section>
+
+    <!-- ═══ S5: Reason & Execute ═══ -->
+    <section class="execute section" id="execute">
+      <div class="execute-panel reveal">
+        <div class="execute-header">
+          <p class="eyebrow" style="color:var(--green);">The Output</p>
+          <h2>Memory that acts.</h2>
+          <p>AI doesn't just remember — it identifies what to do next and does it.</p>
+        </div>
+
+        <div class="execute-grid">
+          <div class="execute-card">
+            <div class="ex-icon" style="background:rgba(48,209,88,0.12); color:var(--green);">&#128176;</div>
+            <div>
+              <h3>Opportunities</h3>
+              <p>Customer mentioned a second unit? AI creates the upsell quote before your team even asks.</p>
             </div>
-            <div class="demo-nav-badge phone-badge">Live Call</div>
-            <h3>Call our AI</h3>
-            <p>Dial in and describe a service call. Get a work order texted back in seconds.</p>
-            <div class="demo-nav-steps">
-              <span>1. Call</span>
-              <span class="demo-nav-arrow">&rarr;</span>
-              <span>2. Talk</span>
-              <span class="demo-nav-arrow">&rarr;</span>
-              <span>3. Get SMS report</span>
+          </div>
+          <div class="execute-card">
+            <div class="ex-icon" style="background:rgba(255,69,58,0.12); color:var(--red);">&#9888;</div>
+            <div>
+              <h3>Risks</h3>
+              <p>Unhappy customer tone? Missed commitment? AI flags it and escalates before it becomes a problem.</p>
             </div>
-            <span class="demo-nav-cta phone-cta">
-              Call AI Demo
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
+          </div>
+          <div class="execute-card">
+            <div class="ex-icon" style="background:rgba(0,113,227,0.12); color:var(--accent);">&#9989;</div>
+            <div>
+              <h3>Tasks</h3>
+              <p>"I told them we'd send someone Tuesday" — AI creates the dispatch task, assigns the tech, sends the confirm.</p>
+            </div>
+          </div>
+          <div class="execute-card">
+            <div class="ex-icon" style="background:rgba(255,159,10,0.12); color:var(--orange);">&#128197;</div>
+            <div>
+              <h3>Follow-ups</h3>
+              <p>"Check back in 30 days" — AI schedules the follow-up, preps the context, and reminds at the right time.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="execute-outputs">
+          <span class="output-chip">Work Orders</span>
+          <span class="output-chip">Invoices</span>
+          <span class="output-chip">Dispatch</span>
+          <span class="output-chip">Estimates</span>
+          <span class="output-chip">CRM Updates</span>
+          <span class="output-chip">Follow-up Calls</span>
+          <span class="output-chip">Email Reports</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ S6: Industry Proof ═══ -->
+    <section class="industries section" id="industries">
+      <div class="industries-header reveal">
+        <p class="eyebrow">Proven in the field</p>
+        <h2>Ready for every trade.</h2>
+      </div>
+
+      <div class="industries-grid">
+        <article class="industry-card main reveal">
+          <div class="ind-tag">
+            <span class="ind-dot" style="background:var(--green);"></span>
+            Live
+          </div>
+          <h3>HVAC</h3>
+          <p>Compressor diagnostics, refrigerant levels, changeout estimates, PM schedules, warranty work — captured from tech voice, turned into work orders and dispatch in real time. Already deployed with 10+ HVAC teams.</p>
+          <a class="ind-link" href="/hvac">
+            See full HVAC use case
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
-          <!-- Card 2: Web Chat Demo -->
-          <a class="demo-nav-card" href="https://talktodeal.com/how">
-            <div class="demo-nav-icon chat-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-              </svg>
-            </div>
-            <div class="demo-nav-badge chat-badge">Interactive</div>
-            <h3>Chat with AI online</h3>
-            <p>Watch how voice becomes a work order — then try it yourself with a live AI conversation.</p>
-            <div class="demo-nav-steps">
-              <span>1. Watch demo</span>
-              <span class="demo-nav-arrow">&rarr;</span>
-              <span>2. Chat</span>
-              <span class="demo-nav-arrow">&rarr;</span>
-              <span>3. Get email report</span>
-            </div>
-            <span class="demo-nav-cta chat-cta">
-              Try Web Demo
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
-          </a>
+        </article>
+        <article class="industry-card secondary reveal">
+          <div class="ind-tag" style="color:var(--text-soft);">
+            <span class="ind-dot" style="background:var(--orange);"></span>
+            Next
+          </div>
+          <h3>Plumbing</h3>
+          <p>Water heater installs, drain camera inspections, repipe estimates — same voice-to-action pipeline.</p>
+          <span class="ind-soon">Coming Q3 2026</span>
+        </article>
+        <article class="industry-card secondary reveal">
+          <div class="ind-tag" style="color:var(--text-soft);">
+            <span class="ind-dot" style="background:var(--orange);"></span>
+            Next
+          </div>
+          <h3>Electrical</h3>
+          <p>Panel upgrades, EV charger installs, troubleshooting — from spoken diagnosis to permit-ready work orders.</p>
+          <span class="ind-soon">Coming Q4 2026</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- ═══ S7: Trust ═══ -->
+    <section class="trust section" id="trust">
+      <div class="trust-panel reveal">
+        <div class="trust-label">Integrations</div>
+        <div class="trust-chips">
+          <span class="trust-chip">ServiceTitan</span>
+          <span class="trust-chip">Housecall Pro</span>
+          <span class="trust-chip">Jobber</span>
+          <span class="trust-chip">QuickBooks</span>
+          <span class="trust-chip">HubSpot</span>
+          <span class="trust-chip">Salesforce</span>
+          <span class="trust-chip">+ more</span>
+        </div>
+        <div class="trust-badges">
+          <div class="trust-badge">
+            <span class="trust-badge-dot" style="background:var(--green);"></span>
+            End-to-end encrypted
+          </div>
+          <div class="trust-badge">
+            <span class="trust-badge-dot" style="background:var(--accent);"></span>
+            SOC 2 ready
+          </div>
+          <div class="trust-badge">
+            <span class="trust-badge-dot" style="background:var(--purple);"></span>
+            TCPA compliant
+          </div>
+          <div class="trust-badge">
+            <span class="trust-badge-dot" style="background:var(--orange);"></span>
+            GDPR aware
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ═══ Screen 2: Pain Points (raw, real language) ═══ -->
-    <section class="pain section" id="pain">
-      <div class="pain-header reveal">
-        <p class="eyebrow">Sound familiar?</p>
-        <h2>You're losing money every single day.</h2>
-      </div>
-
-      <div class="pain-grid">
-        <article class="pain-card reveal">
-          <div class="pain-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-          </div>
-          <h3>Tech finishes a service call and just... leaves.</h3>
-          <p>Swapped a blower motor, topped off refrigerant, quoted a duct repair &mdash; but none of it got written down. You're calling him at 9pm asking what happened at the Johnson house.</p>
-        </article>
-        <article class="pain-card reveal">
-          <div class="pain-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-          </div>
-          <h3>Estimates are wrong. Or just missing.</h3>
-          <p>Tech told the homeowner $4,800 for a changeout. Wrote $4,200 on the invoice. Did he include the line set? The disconnect? Nobody knows.</p>
-        </article>
-        <article class="pain-card reveal">
-          <div class="pain-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-            </svg>
-          </div>
-          <h3>Dispatch is running on memory and sticky notes.</h3>
-          <p>Who's got the PM schedule? Which tech has the recovery tank? Did we order the condenser for the Garcia install? Your CSR is juggling 15 calls and guessing.</p>
-        </article>
-        <article class="pain-card reveal">
-          <div class="pain-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-            </svg>
-          </div>
-          <h3>$5K changeouts fall through the cracks.</h3>
-          <p>Your tech diagnosed a compressor failure on Tuesday. Told the homeowner he'd send a quote. Nobody followed up. They called another contractor Friday.</p>
-        </article>
-      </div>
-
-      <div class="pain-bottom reveal">
-        <p class="pain-insight">
-          You don't lose jobs because your techs do bad work.<br>
-          <strong>You lose them because the details never make it from the truck to ServiceTitan.</strong>
-        </p>
-      </div>
-    </section>
-
-    <!-- ═══ Industry Stats Banner ═══ -->
-    <section class="stats-banner" id="stats-banner">
-      <img
-        src="banner-hvac-field.jpg"
-        alt="HVAC technician checking refrigerant on condenser unit — 80% of field data is spoken"
-        class="banner-img"
-        width="1920"
-        height="640"
-      >
-    </section>
-
-    <!-- ═══ Screen 3: Solution + Real Product Photo ═══ -->
-    <section class="solution section" id="solution">
-      <div class="solution-content reveal">
-        <p class="eyebrow">The Fix</p>
-        <h2>TalkToDeal closes the gap.</h2>
-        <p class="solution-lead">
-          A small wearable mic clips to your tech's collar or shirt pocket.
-          Every diagnostic call, every on-site estimate, every customer conversation &mdash;
-          automatically becomes a structured work order with equipment details, part numbers, and pricing.
-        </p>
-        <div class="solution-points">
-          <div class="sol-point">
-            <span class="sol-check">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M5 10l3 3 7-7" stroke="#0071e3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            No typing
-          </div>
-          <div class="sol-point">
-            <span class="sol-check">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M5 10l3 3 7-7" stroke="#0071e3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            No extra steps
-          </div>
-          <div class="sol-point">
-            <span class="sol-check">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M5 10l3 3 7-7" stroke="#0071e3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            No change in behavior
-          </div>
-        </div>
-        <p class="solution-tagline">Just speak like you already do.</p>
-
-        <!-- Integrations trust bar -->
-        <div class="integrations">
-          <p class="integrations-label">Works with your existing tools</p>
-          <div class="integrations-list">
-            <span class="integration-chip">ServiceTitan</span>
-            <span class="integration-chip">Housecall Pro</span>
-            <span class="integration-chip">Jobber</span>
-            <span class="integration-chip">QuickBooks</span>
-            <span class="integration-chip">+ more</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="solution-visual reveal">
-        <img
-          src="HA-MIC05.png"
-          alt="TalkToDeal HA-MIC05 AI Voice Recorder - wearable microphone for HVAC techs"
-          class="product-photo"
-          width="400"
-          height="400"
-          loading="lazy"
-        >
-        <p class="product-caption">HA-MIC05 AI Voice Recorder<br><span>Clips to collar. All-day battery. Built for the field.</span></p>
-      </div>
-    </section>
-
-    <!-- ═══ Screen 4: Real HVAC Scenarios ═══ -->
-    <section class="scenarios section" id="scenarios">
-      <div class="section-head reveal center">
-        <p class="eyebrow">Real HVAC scenarios</p>
-        <h2>Works for every type of call your team runs.</h2>
-      </div>
-
-      <div class="scenario-grid">
-        <article class="scenario-card reveal">
-          <div class="scenario-type">Emergency Repair</div>
-          <div class="scenario-speech">
-            "Capacitor's blown on the condenser. Fan motor is pulling high amps too. I'm replacing both &mdash; run cap and the motor. Parts on the truck. About $650 total."
-          </div>
-          <div class="scenario-output">
-            <div class="scenario-row"><span>Equipment</span><strong>Condenser unit</strong></div>
-            <div class="scenario-row"><span>Parts</span><strong>Run capacitor + fan motor</strong></div>
-            <div class="scenario-row"><span>Total</span><strong>$650</strong></div>
-            <div class="scenario-row"><span>Status</span><strong class="status-green">Repair completed on-site</strong></div>
-          </div>
-        </article>
-
-        <article class="scenario-card reveal">
-          <div class="scenario-type">PM Visit</div>
-          <div class="scenario-speech">
-            "Annual maintenance on a Lennox split system. Coils are dirty, changed the filter, checked refrigerant &mdash; pressures look good. Drain line was clogged, I flushed it. Recommend replacing the contactor next visit."
-          </div>
-          <div class="scenario-output">
-            <div class="scenario-row"><span>Service</span><strong>Annual PM &mdash; Lennox split system</strong></div>
-            <div class="scenario-row"><span>Completed</span><strong>Coil cleaning, filter, drain flush</strong></div>
-            <div class="scenario-row"><span>Flag</span><strong>Contactor replacement recommended</strong></div>
-            <div class="scenario-row"><span>Follow-up</span><strong class="status-orange">Schedule contactor swap</strong></div>
-          </div>
-        </article>
-
-        <article class="scenario-card reveal">
-          <div class="scenario-type">New Install Estimate</div>
-          <div class="scenario-speech">
-            "It's a 2,400 square foot ranch. Current system is a 15-year-old Trane. I'd go with a 4-ton Carrier Infinity with variable speed. Ductwork needs modification in the attic. Full install around $12,500."
-          </div>
-          <div class="scenario-output">
-            <div class="scenario-row"><span>Scope</span><strong>Full system replacement &mdash; 4-ton Carrier Infinity</strong></div>
-            <div class="scenario-row"><span>Add-ons</span><strong>Ductwork modification (attic)</strong></div>
-            <div class="scenario-row"><span>Estimate</span><strong>$12,500</strong></div>
-            <div class="scenario-row"><span>Status</span><strong class="status-orange">Proposal ready for customer</strong></div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ═══ Industry Expansion Banner ═══ -->
-    <section class="stats-banner">
-      <img
-        src="banner-industry-voice.jpg"
-        alt="HVAC tech repairing rooftop unit — built for the field: HVAC, Plumbing, Electrical, Roofing"
-        class="banner-img"
-        width="1920"
-        height="520"
-      >
-    </section>
-
-    <!-- ═══ Screen 5: Value ═══ -->
-    <section class="value section" id="value">
-      <div class="section-head reveal">
-        <p class="eyebrow">What You Get</p>
-        <h2>Replace manual logging with real-time capture.</h2>
-      </div>
-
-      <div class="value-grid">
-        <article class="value-card reveal">
-          <div class="value-num">01</div>
-          <h3>Higher close rate on estimates</h3>
-          <p>Every on-site quote is captured word-for-word. Follow-ups go out the same day, not three days later when the customer already called someone else.</p>
-        </article>
-        <article class="value-card reveal">
-          <div class="value-num">02</div>
-          <h3>Zero callbacks from missing info</h3>
-          <p>Model numbers, serial numbers, refrigerant type, customer requests &mdash; all captured automatically. No more "what was the tonnage again?" calls.</p>
-        </article>
-        <article class="value-card reveal">
-          <div class="value-num">03</div>
-          <h3>Same-day invoicing</h3>
-          <p>Work orders are built before your tech even leaves the driveway. Office staff bills immediately instead of waiting until Friday.</p>
-        </article>
-        <article class="value-card reveal">
-          <div class="value-num">04</div>
-          <h3>PM upsells you're missing today</h3>
-          <p>Your tech says "contactor looks worn" but never writes it down. We flag it, create the follow-up, and queue the maintenance agreement renewal.</p>
-        </article>
-        <article class="value-card large reveal">
-          <div class="value-num">05</div>
-          <h3>Full visibility: every truck, every call, every estimate</h3>
-          <p>See what's happening across all your techs in real-time. Diagnostics, installs, PMs, warranty work &mdash; nothing gets lost between the field and the office.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- ═══ Screen 5: Differentiator ═══ -->
-    <section class="diff section" id="diff">
-      <div class="diff-panel reveal">
-        <h2>We're not another app.</h2>
-        <p class="diff-sub">
-          We don't ask your team to learn something new or do more work.
-        </p>
-        <p class="diff-tagline">
-          We simply make what they already say<br>
-          <strong>work for you.</strong>
-        </p>
-      </div>
-    </section>
-
-    <!-- ═══ Screen 6: CTA ═══ -->
+    <!-- ═══ S8: CTA ═══ -->
     <section class="closing section" id="cta">
       <div class="closing-panel reveal">
         <p class="eyebrow">Get Started</p>
-        <h2>Stop losing job details.</h2>
-        <p class="closing-sub">Start capturing real work in real time.</p>
+        <h2>Stop losing business conversations.</h2>
+        <p class="closing-sub">Start building your business memory today.</p>
         <div class="closing-price">Starting at $99&ndash;199/month per team</div>
-        <p class="closing-value">Replace 1 admin task instantly.</p>
-        <div class="actions">
-          <a class="button primary large-btn" href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank" rel="noopener">Book a 15-min Demo</a>
-          <a class="button secondary large-btn" href="tel:6699000008">Call 669-900-0008</a>
+        <p class="closing-value">From voice to execution in seconds.</p>
+        <div class="actions" style="justify-content:center;">
+          <a class="button btn-primary large-btn" href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank" rel="noopener">Book a 15-min Demo</a>
+          <a class="button btn-green large-btn" href="/call">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 014.12 4.18 2 2 0 016.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            Try AI Demo
+          </a>
+          <a class="button btn-secondary large-btn" href="/hvac">See HVAC Use Case</a>
         </div>
         <div class="closing-proof">
           <span class="proof-dot"></span>
-          Already helping 10+ HVAC teams across the US
+          Already powering 10+ field service teams across the US
         </div>
       </div>
     </section>
@@ -423,6 +676,20 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    // Reveal on scroll
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('is-visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+
+    // Topbar shrink
+    var topbar = document.querySelector('.topbar');
+    if (topbar) {
+      window.addEventListener('scroll', function() {
+        topbar.style.opacity = window.scrollY > 100 ? '0.97' : '1';
+      });
+    }
+  </script>
 </body>
 </html>

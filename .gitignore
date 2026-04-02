@@ -4,3 +4,8 @@ Thumbs.db
 *.log
 .claude/
 .spec-workflow/
+.wrangler/
+*-raw.jpg
+*-preview*.png
+live-*.png
+lighthouse.json
