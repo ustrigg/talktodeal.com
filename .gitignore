@@ -4,3 +4,12 @@ Thumbs.db
 *.log
 .claude/
 .spec-workflow/
+__pycache__/
+*.pyc
+.env
+agents/*/sessions/
+agents/*/output/
+agents/*/data/
+agents/*/ips/
+venv/
+.venv/
